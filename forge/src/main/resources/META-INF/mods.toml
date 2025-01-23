@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[48,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/19Phin/Speed-Cap/issues"
 license = "MIT"
 
 [[mods]]
