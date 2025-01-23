@@ -258,25 +258,35 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         public void tick() {
-            tick++;
-            if (tick >= 10) {
+            if (moving !=0) {
                 increase++;
-                if (increase >= 10) {
-                    moving *= 10;
+                if (increase >= 100) {
+                    moving *= 2;
                     increase = 0;
                 }
 
-                if (moving > 0 && speedValue + moving > 1000000) {
-                    speedValue = 1000000.9f;
-                } else if (moving < 0 && speedValue + moving < 0) {
-                    speedValue = 0;
+                if (Math.abs(moving) >= 10) {
+                    applySpeedIncrement(moving / 10f);
                 } else {
-                    speedValue += moving;
+                    tick++;
+                    if (tick >= 10) {
+                        applySpeedIncrement(moving);
+                        tick = 0;
+                    }
                 }
-
-                updateMessage();
-                tick = 0;
             }
+        }
+
+        private void applySpeedIncrement(float increment) {
+            float newSpeedValue = speedValue + increment;
+            if (increment > 0 && newSpeedValue > 1000000) {
+                speedValue = 1000000.9f;
+            } else if (increment < 0 && newSpeedValue < 0) {
+                speedValue = 0;
+            } else {
+                speedValue = newSpeedValue;
+            }
+            updateMessage();
         }
 
         public float getSpeed() {
