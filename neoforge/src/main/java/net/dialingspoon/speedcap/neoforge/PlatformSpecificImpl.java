@@ -24,7 +24,7 @@ public class PlatformSpecificImpl {
     public static ItemStack getItemFromModdedSlots(LivingEntity livingEntity) {
         if (SpeedCapNeoForge.curiosLoaded) {
             if (CuriosApi.getCuriosInventory(livingEntity).isPresent()) {
-                List<SlotResult> stacks = CuriosApi.getCuriosInventory(livingEntity).resolve().get().findCurios(ModItems.SPEEDCAP.get());
+                List<SlotResult> stacks = CuriosApi.getCuriosInventory(livingEntity).get().findCurios(ModItems.SPEEDCAP.get());
                 if (!stacks.isEmpty()) return stacks.get(0).stack();
             }
         }
