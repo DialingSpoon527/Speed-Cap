@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[1,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/19Phin/Speed-Cap/issues"
 license = "MIT"
 
 [[mods]]
@@ -21,13 +21,13 @@ config = "speedcap.neoforge.mixins.json"
 [[dependencies.speedcap]]
 modId = "neoforge"
 mandatory = true
-versionRange = "[20.2,)"
+versionRange = "(20.1,20.3)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.speedcap]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.2,)"
+versionRange = "(1.20.1,1.20.3)"
 ordering = "NONE"
 side = "BOTH"
