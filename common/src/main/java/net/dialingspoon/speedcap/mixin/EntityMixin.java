@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Final;
@@ -22,7 +21,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityInterface {
@@ -152,7 +150,7 @@ public abstract class EntityMixin implements EntityInterface {
     @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData$Builder;define(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)Lnet/minecraft/network/syncher/SynchedEntityData$Builder;", ordinal = 7), method = "<init>")
     private <T>SynchedEntityData.Builder syncSpeeding(SynchedEntityData.Builder instance, EntityDataAccessor<T> entityDataAccessor, T object, Operation<SynchedEntityData.Builder> original) {
         original.call(instance, entityDataAccessor, object);
-        instance.define(DATA_SPEEDING, false);
+        original.call(instance, DATA_SPEEDING, false);
         return instance;
     }
 }

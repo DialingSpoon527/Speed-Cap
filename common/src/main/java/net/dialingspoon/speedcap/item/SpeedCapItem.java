@@ -1,6 +1,5 @@
 package net.dialingspoon.speedcap.item;
 
-import dev.architectury.injectables.annotations.PlatformOnly;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.minecraft.core.registries.Registries;
@@ -20,7 +19,6 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class SpeedCapItem extends ArmorItem {
     public static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties().durability(11 * 15)
@@ -41,14 +39,6 @@ public class SpeedCapItem extends ArmorItem {
             return InteractionResult.PASS;
         }
         return super.use(level, player, interactionHand);
-    }
-
-    /**
-     *This @Overrides Item.initializeClient(Consumer<IClientItemExtensions>) through type-erasure shenanigans.
-     */
-    @PlatformOnly({PlatformOnly.FORGE, "neoforge"})
-    public void initializeClient(Consumer<Object> consumer) {
-        consumer.accept(PlatformSpecific.itemExtension());
     }
 
     @Override
