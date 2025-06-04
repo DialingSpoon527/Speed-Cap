@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
@@ -27,7 +28,7 @@ import java.util.List;
 
 @Environment(value=EnvType.CLIENT)
 public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
-    private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.tryBuild(SpeedCap.MOD_ID,"textures/gui/cap_menu.png");
+    private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.tryBuild(SpeedCap.MOD_ID,"cap_menu");
     private static final List<CapSlider> sliderWidgets = Lists.newArrayList();
     private static final List<CapScreenButton> buttonWidgets = Lists.newArrayList();
     private static CapResetButton resetWidget;
@@ -73,12 +74,12 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
     private void addWidget(AbstractWidget widget) {
         this.addRenderableWidget(widget);
-        if (widget instanceof CapScreenButton button) {
-            buttonWidgets.add(button);
-        } else if(widget instanceof CapSlider slider) {
-            sliderWidgets.add(slider);
-        } else if (widget instanceof CapResetButton reset) {
-            resetWidget = reset;
+        switch (widget) {
+            case CapScreenButton button -> buttonWidgets.add(button);
+            case CapSlider slider -> sliderWidgets.add(slider);
+            case CapResetButton reset -> resetWidget = reset;
+            default -> {
+            }
         }
     }
 
@@ -100,7 +101,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        guiGraphics.blit(TEXTURE_LOCATION, this.leftPos, this.topPos-25, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blitSprite(RenderType::guiTextured, TEXTURE_LOCATION,  256, 256, 0, 0, this.leftPos, this.topPos-25, this.imageWidth, this.imageHeight);
     }
 
     @Override
@@ -162,8 +163,8 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-            guiGraphics.blit(SpeedCapScreen.TEXTURE_LOCATION, this.getX(), this.getY(), this.movementRelated == isMovementTabActive ? 0 : 25, 150, 25, 25);
-            guiGraphics.blit(this.getX() + 4, this.getY() + 3, 0, 18, 18, this.sprite);
+            guiGraphics.blitSprite(RenderType::guiTextured, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, this.movementRelated == isMovementTabActive ? 0 : 25, 150, this.getX(), this.getY(), 25, 25);
+            guiGraphics.blitSprite(RenderType::guiTextured, this.sprite, this.getX() + 4, this.getY() + 3, 18, 18);
         }
 
         @Override
@@ -317,8 +318,8 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-            int iconOffset = this.selected ? 59 :  59 + this.width;
-            guiGraphics.blit(SpeedCapScreen.TEXTURE_LOCATION, this.getX(), this.getY(), iconOffset, 162, this.width, this.height);
+            int iconOffset = this.selected ? 59 : 59 + this.width;
+            guiGraphics.blitSprite(RenderType::guiTextured, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 162, this.getX(), this.getY(), this.width, this.height);
         }
 
         @Override
@@ -348,8 +349,8 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-            int iconOffset = this.selected ? 50 :  50 + this.width;
-            guiGraphics.blit(SpeedCapScreen.TEXTURE_LOCATION, this.getX(), this.getY(), iconOffset, 150, this.width, this.height);
+            int iconOffset = this.selected ? 50 + this.width : 50;
+            guiGraphics.blitSprite(RenderType::guiTextured, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 150, this.getX(), this.getY(), this.width, this.height);
             guiGraphics.drawCenteredString(SpeedCapScreen.this.font, name, this.getX() + this.width / 2, this.getY() - 10, 0xffffff);
         }
 
@@ -387,7 +388,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
-            guiGraphics.blit(TEXTURE_LOCATION, this.getX(), this.getY(), 50, 162, width, height);
+            guiGraphics.blitSprite(RenderType::guiTextured, TEXTURE_LOCATION, 256, 256, 50, 162, this.getX(), this.getY(), width, height);
         }
 
         @Override

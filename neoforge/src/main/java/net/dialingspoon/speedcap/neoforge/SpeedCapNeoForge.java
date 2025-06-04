@@ -10,7 +10,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
+import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 @Mod(SpeedCap.MOD_ID)
 public final class SpeedCapNeoForge {
@@ -31,7 +31,7 @@ public final class SpeedCapNeoForge {
     }
 
     private void clientSetup(final FMLClientSetupEvent evt) {
-        CuriosRendererRegistry.register(ModItems.SPEEDCAP.get(), CurioRenderer::new);
+        ICurioRenderer.register(ModItems.SPEEDCAP.get(), CurioRenderer::new);
     }
 
     public static void registerNetworkPackets(final RegisterPayloadHandlersEvent event) {

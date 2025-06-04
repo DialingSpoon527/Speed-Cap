@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.Util;
 import net.dialingspoon.speedcap.fabric.registry.ModDataComponents;
+import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -27,6 +28,7 @@ public record CapKeybindPacket(boolean move) implements CustomPacketPayload {
         ItemStack cap = Util.getActiveCap(player);
         CapSettingsComponent old = cap.get(ModDataComponents.SPEEDCAP_DATA);
         cap.set(ModDataComponents.SPEEDCAP_DATA, new CapSettingsComponent(old.moveSpeed(), old.mineSpeed(), old.moveActive() != packet.move(), old.modifiable(), old.jump(), old.stoponadime(), old.mineActive() == packet.move(), old.creative()));
+        ((EntityInterface)player).speedcap$setData(cap.get(ModDataComponents.SPEEDCAP_DATA));
     }
 
     @Override

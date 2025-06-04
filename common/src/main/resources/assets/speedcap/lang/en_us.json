@@ -21,5 +21,7 @@
   "item.speedcap.gui.creativeDesc": "Retains instamine, while adding a creative-like delay between block breaking",
   "item.speedcap.gui.bps": "Speed In Blocks per Second",
   "item.speedcap.gui.reset": "Reset",
-  "tooltip.speedcap.speed_cap.tooltip": "§8Shift-click in mainhand for settings"
+  "tooltip.speedcap.speed_cap.tooltip": "§8Shift-click in mainhand for settings",
+
+  "tag.item.speedcap.repairs_speed_cap": "Repairs Speed Cap"
 }

@@ -2,7 +2,10 @@ package net.dialingspoon.speedcap.fabric;
 
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.fabric.networking.Packets;
-import net.dialingspoon.speedcap.fabric.registry.*;
+import net.dialingspoon.speedcap.fabric.registry.ModDataComponents;
+import net.dialingspoon.speedcap.fabric.registry.ModItems;
+import net.dialingspoon.speedcap.fabric.registry.ModMenuTypes;
+import net.dialingspoon.speedcap.fabric.registry.ModRecipes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -11,11 +14,10 @@ public final class SpeedCapFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         ModItems.register();
-        ModMenuTypes.register();
+        ModMenuTypes.register(false);
         ModRecipes.register();
         Packets.registerPackets();
         ModDataComponents.register();
-        ModKeys.register();
 
         trinketsLoaded = FabricLoader.getInstance().isModLoaded("trinkets");
         SpeedCap.init();

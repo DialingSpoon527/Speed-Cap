@@ -1,6 +1,7 @@
 package net.dialingspoon.speedcap.neoforge;
 
 import net.dialingspoon.speedcap.gui.SpeedCapMenu;
+import net.dialingspoon.speedcap.item.CapAnimComponent;
 import net.dialingspoon.speedcap.item.CapRecipe;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
@@ -60,5 +61,9 @@ public class PlatformSpecificImpl {
 
     public static DataComponentType<CapSettingsComponent> getDataComponent() {
         return ModDataComponents.SPEEDCAP_DATA.get();
+    }
+
+    public static DataComponentType<CapAnimComponent> getAnimComponent() {
+        return ModDataComponents.SPEEDCAP_ANIM.get();
     }
 }

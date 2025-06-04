@@ -1,5 +1,7 @@
 package net.dialingspoon.speedcap.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.Util;
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
@@ -24,11 +26,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityInterface {
-    @Shadow
-    public Level level() {
-        return null;
-    }
-
     @Shadow 
     @Final protected SynchedEntityData entityData;
     @Unique
@@ -152,9 +149,9 @@ public abstract class EntityMixin implements EntityInterface {
         return vec3;
     }
 
-    @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData$Builder;define(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)Lnet/minecraft/network/syncher/SynchedEntityData$Builder;", ordinal = 7), method = "<init>")
-    private <T>SynchedEntityData.Builder syncSpeeding(SynchedEntityData.Builder instance, EntityDataAccessor<T> entityDataAccessor, T object) {
-        instance.define(entityDataAccessor, object);
+    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData$Builder;define(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)Lnet/minecraft/network/syncher/SynchedEntityData$Builder;", ordinal = 7), method = "<init>")
+    private <T>SynchedEntityData.Builder syncSpeeding(SynchedEntityData.Builder instance, EntityDataAccessor<T> entityDataAccessor, T object, Operation<SynchedEntityData.Builder> original) {
+        original.call(instance, entityDataAccessor, object);
         instance.define(DATA_SPEEDING, false);
         return instance;
     }

@@ -1,7 +1,7 @@
 package net.dialingspoon.speedcap;
 
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
-import net.minecraft.client.Minecraft;
+import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +27,7 @@ public class Util {
             if (entityInterface.speedcap$getCapStack() != item) {
                 entityInterface.speedcap$setCapStack(item);
 
-                entityInterface.speedcap$setData(item.get(PlatformSpecific.getDataComponent()));
+                entityInterface.speedcap$setData(item.getOrDefault(PlatformSpecific.getDataComponent(), new CapSettingsComponent(4.8f, 4, true, false, true, false, true, true)));
             }
         }
 
@@ -35,11 +35,6 @@ public class Util {
     }
 
     public static boolean shouldHandleSelf(LivingEntity entity) {
-        if (entity.level() instanceof ServerLevel) {
-            return true;
-        } else if (entity instanceof Player player) {
-            return player.equals(Minecraft.getInstance().player);
-        }
-        return false;
+        return (entity instanceof Player) != (entity.level() instanceof ServerLevel);
     }
 }

@@ -6,18 +6,10 @@
     "rnr"
   ],
   "key": {
-    "/": {
-      "item": "minecraft:stick"
-    },
-    "#": {
-      "item": "minecraft:white_carpet"
-    },
-    "n": {
-      "item": "minecraft:iron_helmet"
-    },
-    "r": {
-      "item": "minecraft:redstone"
-    }
+    "/": "minecraft:stick",
+    "#": "minecraft:white_carpet",
+    "n": "minecraft:iron_helmet",
+    "r": "minecraft:redstone"
   },
   "result": {
     "id": "speedcap:speed_cap"

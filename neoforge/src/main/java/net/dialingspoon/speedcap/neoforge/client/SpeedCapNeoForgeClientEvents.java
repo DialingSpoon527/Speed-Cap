@@ -12,14 +12,17 @@ import net.dialingspoon.speedcap.neoforge.registry.ModMenuTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.DyedItemColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 @SuppressWarnings("unused")
 public class SpeedCapNeoForgeClientEvents {
@@ -47,7 +50,7 @@ public class SpeedCapNeoForgeClientEvents {
     public static class ClientModBusEvents {
         private static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
 
-        public static CapModel<LivingEntity> capModel = null;
+        public static CapModel<HumanoidRenderState> capModel = null;
 
         @SubscribeEvent
         public static void initLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -60,8 +63,8 @@ public class SpeedCapNeoForgeClientEvents {
         }
 
         @SubscribeEvent
-        public static void initColors(RegisterColorHandlersEvent.Item event) {
-            event.register((itemStack, layer) -> layer > 0 ? -1 : DyedItemColor.getOrDefault(itemStack, ModItems.SPEEDCAP.get().DEFAULT_COLOR), ModItems.SPEEDCAP.get());
+        public static void registerItemExtensions(RegisterClientExtensionsEvent event) {
+            event.registerItem(ItemExtension.INSTANCE, ModItems.SPEEDCAP);
         }
 
         @SubscribeEvent

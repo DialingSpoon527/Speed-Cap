@@ -1,0 +1,15 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "speedcap:speed_cap",
+        "dyeable": {
+          "color_when_undyed": -1
+        }
+      },
+      {
+        "texture": "speedcap:speed_cap_overlay"
+      }
+    ]
+  }
+}

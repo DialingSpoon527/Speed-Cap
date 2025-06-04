@@ -1,11 +1,14 @@
 package net.dialingspoon.speedcap.item;
 
 import net.dialingspoon.speedcap.PlatformSpecific;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
@@ -13,15 +16,18 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WoolCarpetBlock;
 
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+
 public class CapRecipe extends CustomRecipe {
-    static final NonNullList<Ingredient> recipeItems = NonNullList.withSize(6, Ingredient.EMPTY);
+    static final NonNullList<Optional<Ingredient>> recipeItems = NonNullList.withSize(6, Optional.empty());
     static {
-        recipeItems.set(0, Ingredient.of(Items.STICK));
+        recipeItems.set(0, Optional.of(Ingredient.of(Items.STICK)));
         reloadCarpetTag();
-        recipeItems.set(2, Ingredient.of(Items.STICK));
-        recipeItems.set(3, Ingredient.of(Items.REDSTONE));
-        recipeItems.set(4, Ingredient.of(Items.IRON_HELMET));
-        recipeItems.set(5, Ingredient.of(Items.REDSTONE));
+        recipeItems.set(2, Optional.of(Ingredient.of(Items.STICK)));
+        recipeItems.set(3, Optional.of(Ingredient.of(Items.REDSTONE)));
+        recipeItems.set(4, Optional.of(Ingredient.of(Items.IRON_HELMET)));
+        recipeItems.set(5, Optional.of(Ingredient.of(Items.REDSTONE)));
     }
 
     public CapRecipe(CraftingBookCategory craftingBookCategory) {
@@ -48,11 +54,11 @@ public class CapRecipe extends CustomRecipe {
             for (int j = 0; j < recipeInput.height(); ++j) {
                 int k = i - m;
                 int l = j - n;
-                Ingredient ingredient = Ingredient.EMPTY;
+                Optional<Ingredient> ingredient = Optional.empty();
                 if (k >= 0 && l >= 0 && k < 3 && l < 2) {
                     ingredient = bl ? recipeItems.get(3 - k - 1 + l * 3) : recipeItems.get(k + l * 3);
                 }
-                if (ingredient.test(recipeInput.getItem(i + j * recipeInput.width()))) continue;
+                if (Ingredient.testOptionalIngredient(ingredient, recipeInput.getItem(i + j * recipeInput.width()))) continue;
                 return false;
             }
         }
@@ -71,16 +77,16 @@ public class CapRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width >= 3 && height >= 3;
-    }
-
-    @Override
     public RecipeSerializer<CapRecipe> getSerializer() {
         return PlatformSpecific.getRecipeSerializer();
     }
 
     public static void reloadCarpetTag() {
-        recipeItems.set(1, Ingredient.of(ItemTags.WOOL_CARPETS));
+        Item[] carpets = StreamSupport.stream(BuiltInRegistries.ITEM.getTagOrEmpty(ItemTags.WOOL_CARPETS).spliterator(), false).map(Holder::value).filter(item -> item != Items.WHITE_CARPET).toArray(Item[]::new);
+        if (carpets.length == 0) {
+            recipeItems.set(1, Optional.empty());
+        } else {
+            recipeItems.set(1, Optional.of(Ingredient.of(carpets)));
+        }
     }
 }

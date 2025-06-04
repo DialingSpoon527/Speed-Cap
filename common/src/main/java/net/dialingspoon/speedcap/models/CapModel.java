@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
-import net.dialingspoon.speedcap.interfaces.LivingEntityInterface;
+import net.dialingspoon.speedcap.item.CapAnimComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -15,9 +15,9 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import org.joml.Vector3f;
@@ -25,9 +25,9 @@ import org.joml.Vector3f;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.tryBuild(SpeedCap.MOD_ID, "textures/models/armor/speed_cap_layer_1.png");
-	public static final ResourceLocation OVERLAY_TEXTURE = ResourceLocation.tryBuild(SpeedCap.MOD_ID, "textures/models/armor/speed_cap_layer_1_overlay.png");
+public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
+	public static final ResourceLocation TEXTURE = ResourceLocation.tryBuild(SpeedCap.MOD_ID, "textures/entity/equipment/humanoid/speed_cap.png");
+	public static final ResourceLocation OVERLAY_TEXTURE = ResourceLocation.tryBuild(SpeedCap.MOD_ID, "textures/entity/equipment/humanoid/speed_cap_overlay.png");
 
     private final Map<String, ModelPart> modelParts;
 
@@ -36,7 +36,7 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 		this.setAllVisible(false);
 
         this.modelParts = new HashMap<>();
-		this.modelParts.put("hat", root.getChild("hat"));
+		this.modelParts.put("hat", root.getChild("head"));
 		this.modelParts.put("TR", modelParts.get("hat").getChild("TR"));
 		this.modelParts.put("nub", modelParts.get("TR").getChild("nub"));
 		this.modelParts.put("fabric2", modelParts.get("TR").getChild("fabric2"));
@@ -61,7 +61,7 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 	public static LayerDefinition createLayer(CubeDeformation deform) {
 		MeshDefinition mesh = HumanoidModel.createMesh(deform, 0.0F);
 		PartDefinition root = mesh.getRoot();
-		PartDefinition hat = root.getChild("hat");
+		PartDefinition hat = root.getChild("head");
 
 		PartDefinition TR = hat.addOrReplaceChild("TR", CubeListBuilder.create(), PartPose.offset(-5.0F, -9.0F, 0.0F));
 
@@ -132,10 +132,9 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 		return LayerDefinition.create(mesh, 64, 32);
 	}
 
-	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, LivingEntity livingEntity, int light, HumanoidModel<LivingEntity> contextModel) {
-		contextModel.copyPropertiesTo((HumanoidModel<LivingEntity>)this);
-
-		setupAnim(livingEntity);
+	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, int light, HumanoidModel<HumanoidRenderState> contextModel) {
+		contextModel.copyPropertiesTo((HumanoidModel<HumanoidRenderState>)this);
+		setupAnim(stack);
 		int color = DyedItemColor.getOrDefault(stack, SpeedCapItem.DEFAULT_COLOR);
 
 		VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(CapModel.TEXTURE));
@@ -150,15 +149,14 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 		}
 	}
 
-	public void setupAnim(LivingEntity livingEntity) {
-		head.visible = livingEntity.getSlot(103).get().isEmpty() || livingEntity.getSlot(103).get().is(PlatformSpecific.getItem());
+	public void setupAnim(ItemStack stack) {
+		CapAnimComponent animComponent = stack.getOrDefault(PlatformSpecific.getAnimComponent(), new CapAnimComponent(false, 0));
 
-		LivingEntityInterface livingEntityMixin = (LivingEntityInterface)livingEntity;
 		long tick = Minecraft.getInstance().level.getGameTime();
-		float subTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
-		long sailTick = livingEntityMixin.speedcap$getSailTick();
+		float subTick = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaPartialTick(true);
+		long sailTick = animComponent.sailTick();
 
-		CapModel.runAnimation(livingEntityMixin.speedcap$sailDirection() ? ModelAnimations.OPEN : ModelAnimations.CLOSE, modelParts,
+		CapModel.runAnimation(animComponent.sailDirection() ? ModelAnimations.OPEN : ModelAnimations.CLOSE, modelParts,
 				Math.min((tick - sailTick + subTick) / 10, 1));
 	}
 
@@ -212,10 +210,10 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 	private static void setModelPartValue(ModelPart part, Vector3f transform, KeyframeList.Type type) {
 		switch (type) {
 			case POSITION:
-				part.setPos(part.getInitialPose().x + transform.x, part.getInitialPose().y + transform.y, part.getInitialPose().z + transform.z);
+				part.setPos(part.getInitialPose().x() + transform.x, part.getInitialPose().y() + transform.y, part.getInitialPose().z() + transform.z);
 				break;
 			case ROTATION:
-				part.setRotation(part.getInitialPose().xRot + (float)Math.toRadians(transform.x), part.getInitialPose().yRot + (float)Math.toRadians(transform.y), part.getInitialPose().yRot + (float)Math.toRadians(transform.z));
+				part.setRotation(part.getInitialPose().xRot() + (float)Math.toRadians(transform.x), part.getInitialPose().yRot() + (float)Math.toRadians(transform.y), part.getInitialPose().yRot() + (float)Math.toRadians(transform.z));
 				break;
 			case SCALE:
 				part.xScale = transform.x;

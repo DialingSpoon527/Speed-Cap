@@ -2,6 +2,7 @@ package net.dialingspoon.speedcap;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.dialingspoon.speedcap.gui.SpeedCapMenu;
+import net.dialingspoon.speedcap.item.CapAnimComponent;
 import net.dialingspoon.speedcap.item.CapRecipe;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
@@ -50,6 +51,10 @@ public class PlatformSpecific {
 
     @ExpectPlatform
     public static DataComponentType<CapSettingsComponent> getDataComponent() {
+        throw new AssertionError();
+    }
+    @ExpectPlatform
+    public static DataComponentType<CapAnimComponent> getAnimComponent() {
         throw new AssertionError();
     }
 }

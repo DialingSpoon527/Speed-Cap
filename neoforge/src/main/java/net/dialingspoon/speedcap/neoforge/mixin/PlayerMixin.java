@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Player.class)
 public class PlayerMixin {
 
-    @Inject(method = "getDigSpeed", at = @At(value = "RETURN"), cancellable = true, remap = false)
+    @Inject(method = "getDestroySpeed(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)F", at = @At(value = "RETURN"), cancellable = true, remap = false)
     private void slowDestroy(BlockState arg, BlockPos pos, CallbackInfoReturnable<Float> cir) {
         ItemStack cap = Util.getActiveCap((Player)(Object)this);
         CapSettingsComponent data = ((EntityInterface) this).speedcap$getData();

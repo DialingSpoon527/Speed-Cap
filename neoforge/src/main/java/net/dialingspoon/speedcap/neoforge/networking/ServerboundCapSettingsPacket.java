@@ -2,6 +2,7 @@ package net.dialingspoon.speedcap.neoforge.networking;
 
 import io.netty.buffer.ByteBuf;
 import net.dialingspoon.speedcap.SpeedCap;
+import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.dialingspoon.speedcap.neoforge.registry.ModDataComponents;
 import net.dialingspoon.speedcap.neoforge.registry.ModItems;
@@ -60,6 +61,7 @@ public record ServerboundCapSettingsPacket(float moveSpeed, float mineSpeed, boo
             if (!cap.is(ModItems.SPEEDCAP.get())) return;
         }
         cap.set(ModDataComponents.SPEEDCAP_DATA, new CapSettingsComponent(moveSpeed, mineSpeed, moveActive, modifiable, jump, stoponadime, mineActive, creative));
+        ((EntityInterface)player).speedcap$setData(cap.get(ModDataComponents.SPEEDCAP_DATA));
     }
 
     @Override
