@@ -4,6 +4,8 @@ import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.fabric.SpeedCapFabric;
 import net.dialingspoon.speedcap.fabric.mixin.LayerDefinitionsAccessor;
 import net.dialingspoon.speedcap.fabric.registry.ModItems;
+import net.dialingspoon.speedcap.fabric.registry.ModKeys;
+import net.dialingspoon.speedcap.fabric.registry.ModMenuTypes;
 import net.dialingspoon.speedcap.fabric.trinkets.TrinketRenderer;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
 import net.dialingspoon.speedcap.models.CapModel;
@@ -25,6 +27,8 @@ public final class SpeedCapFabricClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(CAP_LAYER, () -> CapModel.createLayer(deformationGetter.getOUTER_ARMOR_DEFORMATION()));
 
         ArmorRenderer.register(new Renderer(), ModItems.SPEEDCAP);
+        ModMenuTypes.register(true);
+        ModKeys.register();
         if (SpeedCapFabric.trinketsLoaded) {
             TrinketRenderer.register();
         }

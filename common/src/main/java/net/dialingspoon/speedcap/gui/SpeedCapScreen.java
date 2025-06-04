@@ -73,12 +73,12 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
     private void addWidget(AbstractWidget widget) {
         this.addRenderableWidget(widget);
-        if (widget instanceof CapScreenButton button) {
-            buttonWidgets.add(button);
-        } else if(widget instanceof CapSlider slider) {
-            sliderWidgets.add(slider);
-        } else if (widget instanceof CapResetButton reset) {
-            resetWidget = reset;
+        switch (widget) {
+            case CapScreenButton button -> buttonWidgets.add(button);
+            case CapSlider slider -> sliderWidgets.add(slider);
+            case CapResetButton reset -> resetWidget = reset;
+            default -> {
+            }
         }
     }
 
@@ -348,7 +348,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-            int iconOffset = this.selected ? 50 :  50 + this.width;
+            int iconOffset = this.selected ? 50 + this.width : 50;
             guiGraphics.blit(SpeedCapScreen.TEXTURE_LOCATION, this.getX(), this.getY(), iconOffset, 150, this.width, this.height);
             guiGraphics.drawCenteredString(SpeedCapScreen.this.font, name, this.getX() + this.width / 2, this.getY() - 10, 0xffffff);
         }

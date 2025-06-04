@@ -2,6 +2,7 @@ package net.dialingspoon.speedcap.fabric;
 
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketsApi;
+import net.dialingspoon.speedcap.fabric.networking.CapAnimPacket;
 import net.dialingspoon.speedcap.fabric.networking.Packets;
 import net.dialingspoon.speedcap.fabric.networking.ServerboundCapSettingsPacket;
 import net.dialingspoon.speedcap.fabric.registry.ModDataComponents;
@@ -38,7 +39,7 @@ public class PlatformSpecificImpl {
     }
 
     public static void sendAnimToServer(boolean active) {
-        sendAnimToServer(active);
+        Packets.sendToServer(new CapAnimPacket(active));
     }
 
     public static SpeedCapItem getItem() {

@@ -1,5 +1,7 @@
 package net.dialingspoon.speedcap.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.dialingspoon.speedcap.Util;
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.dialingspoon.speedcap.interfaces.LivingEntityInterface;
@@ -15,7 +17,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -47,16 +48,16 @@ public class LivingEntityMixin implements LivingEntityInterface {
         return SPEED_MODIFIER_SPRINTING;
     }
 
-    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V"))
-    private void stoponadime(LivingEntity instance, double x, double y, double z) {
+    @WrapOperation(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(DDD)V"))
+    private void stoponadime(LivingEntity instance, double x, double y, double z, Operation<Void> original) {
         ItemStack cap = Util.getActiveCap(instance);
         CapSettingsComponent data = ((EntityInterface) instance).speedcap$getData();
         if (!cap.isEmpty() && data.moveActive() && data.stoponadime()) {
             if (this.xxa == 0.0f && this.zza == 0.0f) {
-                instance.setDeltaMovement(0, y, 0);
+                original.call(instance, 0d, y, 0d);
             }
         } else {
-            instance.setDeltaMovement(x, y, z);
+            original.call(instance, x, y, z);
         }
     }
 

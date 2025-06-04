@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.fabric.registry.ModDataComponents;
 import net.dialingspoon.speedcap.fabric.registry.ModItems;
+import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -61,6 +62,7 @@ public record ServerboundCapSettingsPacket(float moveSpeed, float mineSpeed, boo
             if (!cap.is(ModItems.SPEEDCAP)) return;
         }
         cap.set(ModDataComponents.SPEEDCAP_DATA, new CapSettingsComponent(packet.moveSpeed(), packet.mineSpeed(), packet.moveActive(), packet.modifiable(), packet.jump(), packet.stoponadime(), packet.mineActive(), packet.creative()));
+        ((EntityInterface)player).speedcap$setData(cap.get(ModDataComponents.SPEEDCAP_DATA));
     }
 
     @Override
