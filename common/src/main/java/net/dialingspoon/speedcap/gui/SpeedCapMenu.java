@@ -4,6 +4,7 @@ import net.dialingspoon.speedcap.PlatformSpecific;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class SpeedCapMenu extends AbstractContainerMenu {
@@ -15,9 +16,10 @@ public class SpeedCapMenu extends AbstractContainerMenu {
     }
 
     private ItemStack findSpeedCap(Inventory playerInventory) {
-        for (ItemStack stack : playerInventory.player.getHandSlots()) {
-            if (stack.is(PlatformSpecific.getItem())) return stack;
-        }
+        ItemStack stack = playerInventory.player.getMainHandItem();
+        if (stack.is(PlatformSpecific.getItem())) return stack;
+        stack = playerInventory.player.getOffhandItem();
+        if (stack.is(PlatformSpecific.getItem())) return stack;
         return ItemStack.EMPTY;
     }
 

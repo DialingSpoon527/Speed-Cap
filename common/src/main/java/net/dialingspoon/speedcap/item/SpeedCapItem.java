@@ -11,26 +11,26 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SpeedCapItem extends ArmorItem {
+public class SpeedCapItem extends Item {
     public static final Item.Properties DEFAULT_PROPERTIES = new Item.Properties().durability(11 * 15)
             .component(PlatformSpecific.getDataComponent(), new CapSettingsComponent(4.8f, 4, true, false, true, false, true, true))
             .component(PlatformSpecific.getAnimComponent(), new CapAnimComponent(false, 0))
+            .humanoidArmor(ModMaterials.SPEEDCAP, ArmorType.HELMET)
             .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(SpeedCap.MOD_ID, "speed_cap")));
     public static final int DEFAULT_COLOR = -1;
 
-    public SpeedCapItem(ArmorMaterial material, ArmorType type, Properties settings) {
-        super(material, type, settings);
+    public SpeedCapItem(Properties settings) {
+        super(settings);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class SpeedCapItem extends ArmorItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack arg, TooltipContext arg2, List<Component> list, TooltipFlag arg3) {
-        list.add(Component.translatable("tooltip.speedcap.speed_cap.tooltip"));
-        super.appendHoverText(arg, arg2, list, arg3);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext tooltipContext, TooltipDisplay tooltipDisplay, Consumer<Component> consumer, TooltipFlag tooltipFlag) {
+        consumer.accept(Component.translatable("tooltip.speedcap.speed_cap.tooltip"));
+        super.appendHoverText(itemStack, tooltipContext, tooltipDisplay, consumer, tooltipFlag);
     }
 }

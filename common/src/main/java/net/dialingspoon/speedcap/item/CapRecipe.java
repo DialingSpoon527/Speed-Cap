@@ -72,7 +72,7 @@ public class CapRecipe extends CustomRecipe {
 
         int color = ((WoolCarpetBlock)((BlockItem)carpet.getItem()).getBlock()).getColor().getTextureDiffuseColor();
 
-        cap.set(DataComponents.DYED_COLOR, new DyedItemColor(color, true));
+        cap.set(DataComponents.DYED_COLOR, new DyedItemColor(color));
         return cap;
     }
 

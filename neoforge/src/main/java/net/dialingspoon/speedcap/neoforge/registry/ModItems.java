@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SpeedCap.MOD_ID);
-    public static final DeferredItem<SpeedCapItem> SPEEDCAP = ITEMS.register("speed_cap", () -> new SpeedCapItem(ModMaterials.SPEEDCAP, ArmorType.HELMET, SpeedCapItem.DEFAULT_PROPERTIES));
+    public static final DeferredItem<SpeedCapItem> SPEEDCAP = ITEMS.register("speed_cap", () -> new SpeedCapItem(SpeedCapItem.DEFAULT_PROPERTIES));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

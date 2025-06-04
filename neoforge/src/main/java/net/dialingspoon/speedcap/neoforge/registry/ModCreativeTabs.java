@@ -44,7 +44,7 @@ public class ModCreativeTabs {
         ItemStack cap = new ItemStack(ModItems.SPEEDCAP.get());
         int colorhash = color.getTextureDiffuseColor();
 
-        cap.set(DataComponents.DYED_COLOR, new DyedItemColor(colorhash, true));
+        cap.set(DataComponents.DYED_COLOR, new DyedItemColor(colorhash));
         return cap;
     }
 }

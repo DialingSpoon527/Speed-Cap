@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.equipment.ArmorType;
 
 public class ModItems {
-    public static final SpeedCapItem SPEEDCAP = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speed_cap"), new SpeedCapItem(ModMaterials.SPEEDCAP, ArmorType.HELMET, SpeedCapItem.DEFAULT_PROPERTIES));
+    public static final SpeedCapItem SPEEDCAP = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speed_cap"), new SpeedCapItem(SpeedCapItem.DEFAULT_PROPERTIES));
 
     public static void register() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(content -> {

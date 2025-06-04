@@ -47,8 +47,8 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         buttonWidgets.clear();
 
         addWidget(new CapCancelButton(this.leftPos + this.imageWidth - 13, this.topPos + 4));
-        addWidget(new CapTabButton(this.leftPos - 22, this.topPos + 10, MobEffects.MOVEMENT_SPEED, Component.translatable("item.speedcap.gui.moveTab"), true));
-        addWidget(new CapTabButton(this.leftPos - 22, this.topPos + 40, MobEffects.DIG_SPEED, Component.translatable("item.speedcap.gui.mineTab"), false));
+        addWidget(new CapTabButton(this.leftPos - 22, this.topPos + 10, MobEffects.SPEED, Component.translatable("item.speedcap.gui.moveTab"), true));
+        addWidget(new CapTabButton(this.leftPos - 22, this.topPos + 40, MobEffects.HASTE, Component.translatable("item.speedcap.gui.mineTab"), false));
 
         initControls();
     }
