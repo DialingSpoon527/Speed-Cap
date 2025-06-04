@@ -28,6 +28,6 @@ side = "BOTH"
 [[dependencies.speedcap]]
 modId = "minecraft"
 type = "required"
-versionRange = "(1.21.4, 1.21.6)"
+versionRange = "(1.21.4,)"
 ordering = "NONE"
 side = "BOTH"
