@@ -30,8 +30,7 @@ repositories {
         url = "https://maven.neoforged.net/releases"
     }
     maven {
-        name = "Curios"
-        url = uri("https://maven.theillusivec4.top/")
+        url = "https://www.cursemaven.com"
     }
 }
 
@@ -44,8 +43,8 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 
-    modCompileOnly("top.theillusivec4.curios:curios-neoforge:${rootProject.curios_version}:api")
-    modRuntimeOnly("top.theillusivec4.curios:curios-neoforge:${rootProject.curios_version}")
+    modCompileOnly("curse.maven:adorned-1036809:${rootProject.adorned_file}")
+    modRuntimeOnly("curse.maven:adorned-1036809:${rootProject.adorned_file}")
 }
 
 processResources {
