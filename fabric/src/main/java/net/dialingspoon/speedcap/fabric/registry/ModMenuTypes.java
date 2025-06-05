@@ -12,7 +12,9 @@ import net.minecraft.world.inventory.MenuType;
 
 public class ModMenuTypes {
     public static final MenuType<SpeedCapMenu> SPEEDCAP = Registry.register(BuiltInRegistries.MENU, ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speed_cap"), new MenuType<>(SpeedCapMenu::new, FeatureFlags.VANILLA_SET));
-    public static void register() {
-        MenuScreens.register(SPEEDCAP, SpeedCapScreen::new);
+    public static void register(boolean client) {
+        if(client) {
+            MenuScreens.register(SPEEDCAP, SpeedCapScreen::new);
+        }
     }
 }

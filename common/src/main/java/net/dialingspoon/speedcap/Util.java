@@ -1,7 +1,6 @@
 package net.dialingspoon.speedcap;
 
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,12 +35,7 @@ public class Util {
     }
 
     public static boolean shouldHandleSelf(LivingEntity entity) {
-        if (entity.level() instanceof ServerLevel) {
-            return true;
-        } else if (entity instanceof Player player) {
-            return player.equals(Minecraft.getInstance().player);
-        }
-        return false;
+        return (entity instanceof Player) != (entity.level() instanceof ServerLevel);
     }
 
     public static CompoundTag getOrCreateTag(ItemStack item) {
