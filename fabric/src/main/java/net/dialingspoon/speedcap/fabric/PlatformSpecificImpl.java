@@ -34,7 +34,7 @@ public class PlatformSpecificImpl {
     }
 
     public static void sendAnimToServer(boolean active) {
-        sendAnimToServer(active);
+        Packets.sendAnim(active);
     }
 
     public static SpeedCapItem getItem() {
