@@ -150,7 +150,7 @@ public abstract class EntityMixin implements EntityInterface {
     @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData$Builder;define(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)Lnet/minecraft/network/syncher/SynchedEntityData$Builder;", ordinal = 7), method = "<init>")
     private <T>SynchedEntityData.Builder syncSpeeding(SynchedEntityData.Builder instance, EntityDataAccessor<T> entityDataAccessor, T object, Operation<SynchedEntityData.Builder> original) {
         original.call(instance, entityDataAccessor, object);
-        original.call(instance, DATA_SPEEDING, false);
+        instance.define(DATA_SPEEDING, false);
         return instance;
     }
 }
