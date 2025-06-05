@@ -1,7 +1,5 @@
 package net.dialingspoon.speedcap.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.dialingspoon.speedcap.Util;
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.dialingspoon.speedcap.interfaces.LivingEntityInterface;
@@ -13,15 +11,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Player.class)
 public class PlayerMixin {
 
-    @WrapOperation(method = "getSpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getAttributeValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D"))
-    private double checkSpeed(Player player, Attribute attribute, Operation<Double> original) {
+    @Redirect(method = "getSpeed", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getAttributeValue(Lnet/minecraft/world/entity/ai/attributes/Attribute;)D"))
+    private double checkSpeed(Player player, Attribute attribute) {
         AttributeInstance movementAttribute = player.getAttribute(attribute);
         AttributeModifier sprintModifier = ((LivingEntityInterface)player).getSPEED_MODIFIER_SPRINTING();
-        double speed = original.call(player, attribute);
+        double speed = movementAttribute.getValue();
 
         boolean isSprinting = movementAttribute.hasModifier(sprintModifier);
         if (isSprinting) {
