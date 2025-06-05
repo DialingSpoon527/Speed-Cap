@@ -73,12 +73,12 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
     private void addWidget(AbstractWidget widget) {
         this.addRenderableWidget(widget);
-        if (widget instanceof CapScreenButton button) {
-            buttonWidgets.add(button);
-        } else if(widget instanceof CapSlider slider) {
-            sliderWidgets.add(slider);
-        } else if (widget instanceof CapResetButton reset) {
-            resetWidget = reset;
+        switch (widget) {
+            case CapScreenButton button -> buttonWidgets.add(button);
+            case CapSlider slider -> sliderWidgets.add(slider);
+            case CapResetButton reset -> resetWidget = reset;
+            default -> {
+            }
         }
     }
 
