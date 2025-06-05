@@ -348,7 +348,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
         @Override
         public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-            int iconOffset = this.selected ? 50 :  50 + this.width;
+            int iconOffset = this.selected ? 50 + this.width : 50;
             guiGraphics.blit(SpeedCapScreen.TEXTURE_LOCATION, this.getX(), this.getY(), iconOffset, 150, this.width, this.height);
             guiGraphics.drawCenteredString(SpeedCapScreen.this.font, name, this.getX() + this.width / 2, this.getY() - 10, 0xffffff);
         }
