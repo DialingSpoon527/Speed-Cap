@@ -1,7 +1,6 @@
 package net.dialingspoon.speedcap;
 
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
