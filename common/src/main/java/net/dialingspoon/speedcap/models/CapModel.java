@@ -132,8 +132,8 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 
 	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, LivingEntity livingEntity, int light, HumanoidModel<LivingEntity> contextModel) {
 		contextModel.copyPropertiesTo((HumanoidModel<LivingEntity>)this);
-
 		setupAnim(livingEntity);
+
 		int i = PlatformSpecific.getItem().getColor(stack);
 		float f = (float)(i >> 16 & 255) / 255.0F;
 		float f1 = (float)(i >> 8 & 255) / 255.0F;
@@ -152,8 +152,6 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 	}
 
 	public void setupAnim(LivingEntity livingEntity) {
-		head.visible = livingEntity.getSlot(103).get().isEmpty() || livingEntity.getSlot(103).get().is(PlatformSpecific.getItem());
-
 		LivingEntityInterface livingEntityMixin = (LivingEntityInterface)livingEntity;
 		long tick = Minecraft.getInstance().level.getGameTime();
 		float subTick = Minecraft.getInstance().getFrameTime();
