@@ -9,11 +9,9 @@ import net.dialingspoon.speedcap.neoforge.client.ItemExtension;
 import net.dialingspoon.speedcap.neoforge.networking.CapAnimPacket;
 import net.dialingspoon.speedcap.neoforge.networking.PacketHandler;
 import net.dialingspoon.speedcap.neoforge.networking.ServerboundCapSettingsPacket;
-import net.dialingspoon.speedcap.neoforge.registry.ModDataComponents;
-import net.dialingspoon.speedcap.neoforge.registry.ModItems;
-import net.dialingspoon.speedcap.neoforge.registry.ModMenuTypes;
-import net.dialingspoon.speedcap.neoforge.registry.ModRecipes;
+import net.dialingspoon.speedcap.neoforge.registry.*;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -65,5 +63,13 @@ public class PlatformSpecificImpl {
 
     public static DataComponentType<CapAnimComponent> getAnimComponent() {
         return ModDataComponents.SPEEDCAP_ANIM.get();
+    }
+
+    public static boolean isSpeeding(Entity entity) {
+        return entity.getData(ModAttachments.SPEEDING);
+    }
+
+    public static void setSpeeding(Entity entity, boolean bl) {
+        entity.setData(ModAttachments.SPEEDING, bl);
     }
 }

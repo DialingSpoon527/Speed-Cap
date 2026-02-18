@@ -7,10 +7,7 @@ import dev.emi.trinkets.api.TrinketsApi;
 import net.dialingspoon.speedcap.fabric.networking.CapAnimPacket;
 import net.dialingspoon.speedcap.fabric.networking.Packets;
 import net.dialingspoon.speedcap.fabric.networking.ServerboundCapSettingsPacket;
-import net.dialingspoon.speedcap.fabric.registry.ModDataComponents;
-import net.dialingspoon.speedcap.fabric.registry.ModItems;
-import net.dialingspoon.speedcap.fabric.registry.ModMenuTypes;
-import net.dialingspoon.speedcap.fabric.registry.ModRecipes;
+import net.dialingspoon.speedcap.fabric.registry.*;
 import net.dialingspoon.speedcap.gui.SpeedCapMenu;
 import net.dialingspoon.speedcap.item.CapAnimComponent;
 import net.dialingspoon.speedcap.item.CapRecipe;
@@ -18,6 +15,7 @@ import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.util.Tuple;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -63,5 +61,13 @@ public class PlatformSpecificImpl {
 
     public static DataComponentType<CapAnimComponent> getAnimComponent() {
         return ModDataComponents.SPEEDCAP_ANIM;
+    }
+
+    public static boolean isSpeeding(Entity entity) {
+        return entity.getAttachedOrElse(ModAttachments.SPEEDING ,false);
+    }
+
+    public static void setSpeeding(Entity entity, boolean bl) {
+        entity.setAttached(ModAttachments.SPEEDING, bl);
     }
 }

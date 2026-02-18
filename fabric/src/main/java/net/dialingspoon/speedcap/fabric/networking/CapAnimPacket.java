@@ -1,6 +1,7 @@
 package net.dialingspoon.speedcap.fabric.networking;
 
 import io.netty.buffer.ByteBuf;
+import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -21,7 +22,7 @@ public record CapAnimPacket(boolean active) implements CustomPacketPayload {
 
     public static void handle(CapAnimPacket packet, ServerPlayNetworking.Context context) {
         Player player = context.player();
-        ((EntityInterface)player).speedcap$setSpeeding(packet.active());
+        PlatformSpecific.setSpeeding(player, packet.active());
     }
 
     @Override

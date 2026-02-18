@@ -1,6 +1,7 @@
 package net.dialingspoon.speedcap.neoforge.networking;
 
 import io.netty.buffer.ByteBuf;
+import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.interfaces.EntityInterface;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -21,7 +22,7 @@ public record CapAnimPacket(boolean active) implements CustomPacketPayload {
 
     public void handle(IPayloadContext context) {
         Player player = context.player();
-        ((EntityInterface)player).speedcap$setSpeeding(active());
+        PlatformSpecific.setSpeeding(player, active());
     }
 
     @Override

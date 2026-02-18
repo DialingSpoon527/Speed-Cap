@@ -5,11 +5,7 @@ import net.minecraft.world.item.ItemStack;
 
 public interface EntityInterface {
 
-    boolean speedcap$isSpeeding();
-
     void speedcap$couldSpeed(boolean b);
-
-    void speedcap$setSpeeding(boolean bl);
 
     void speedcap$moving(boolean b);
 

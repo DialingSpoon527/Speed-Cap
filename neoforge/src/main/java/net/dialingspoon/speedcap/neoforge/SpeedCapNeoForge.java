@@ -22,6 +22,7 @@ public final class SpeedCapNeoForge {
         ModRecipes.register(eventBus);
         eventBus.addListener(SpeedCapNeoForge::registerNetworkPackets);
         ModDataComponents.register(eventBus);
+        ModAttachments.register(eventBus);
 
         curiosLoaded = ModList.get().isLoaded("curios");
         if (curiosLoaded) {

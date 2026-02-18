@@ -24,10 +24,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements EntityInterface {
-    @Shadow 
-    @Final protected SynchedEntityData entityData;
-    @Unique
-    private static final EntityDataAccessor<Boolean> DATA_SPEEDING = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.BOOLEAN);
     
     @Unique
     private boolean speedcap$moving;
@@ -42,15 +38,6 @@ public abstract class EntityMixin implements EntityInterface {
     private ItemStack speedcap$cap;
     @Unique
     private CapSettingsComponent speedcap$data;
-
-    @Override
-    public boolean speedcap$isSpeeding() {
-        return this.entityData.get(DATA_SPEEDING);
-    }
-    @Override
-    public void speedcap$setSpeeding(boolean bl) {
-        this.entityData.set(DATA_SPEEDING, bl);
-    }
 
     @Override
     public void speedcap$moving(boolean b) {
@@ -95,7 +82,7 @@ public abstract class EntityMixin implements EntityInterface {
                     if (client) {
                         speedcap$clientSpeeding = false;
                     } else {
-                        speedcap$setSpeeding(false);
+                        PlatformSpecific.setSpeeding((Entity)(Object)this, false);
                     }
                     speedcap$localTick = gameTime;
                 }
@@ -110,7 +97,7 @@ public abstract class EntityMixin implements EntityInterface {
                             if (client) {
                                 speedcap$clientSpeeding = true;
                             } else {
-                                speedcap$setSpeeding(true);
+                                PlatformSpecific.setSpeeding((Entity)(Object)this, true);
                             }
                         }
 
@@ -119,7 +106,7 @@ public abstract class EntityMixin implements EntityInterface {
                         if (client) {
                             speedcap$clientSpeeding = true;
                         } else {
-                            speedcap$setSpeeding(true);
+                            PlatformSpecific.setSpeeding((Entity)(Object)this, true);
                         }
                     }
 
@@ -130,7 +117,7 @@ public abstract class EntityMixin implements EntityInterface {
                             if (client) {
                                 speedcap$clientSpeeding = true;
                             } else {
-                                speedcap$setSpeeding(true);
+                                PlatformSpecific.setSpeeding((Entity)(Object)this, true);
                             }
                         }
                     }
@@ -145,12 +132,5 @@ public abstract class EntityMixin implements EntityInterface {
             }
         }
         return vec3;
-    }
-
-    @WrapOperation(at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData$Builder;define(Lnet/minecraft/network/syncher/EntityDataAccessor;Ljava/lang/Object;)Lnet/minecraft/network/syncher/SynchedEntityData$Builder;", ordinal = 7), method = "<init>")
-    private <T>SynchedEntityData.Builder syncSpeeding(SynchedEntityData.Builder instance, EntityDataAccessor<T> entityDataAccessor, T object, Operation<SynchedEntityData.Builder> original) {
-        original.call(instance, entityDataAccessor, object);
-        instance.define(DATA_SPEEDING, false);
-        return instance;
     }
 }

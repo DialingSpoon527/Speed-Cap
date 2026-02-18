@@ -7,6 +7,7 @@ import net.dialingspoon.speedcap.item.CapRecipe;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -15,11 +16,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 public class PlatformSpecific {
     @ExpectPlatform
     public static ItemStack getItemFromModdedSlots(LivingEntity livingEntity) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static Object itemExtension() {
         throw new AssertionError();
     }
 
@@ -55,6 +51,15 @@ public class PlatformSpecific {
     }
     @ExpectPlatform
     public static DataComponentType<CapAnimComponent> getAnimComponent() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isSpeeding(Entity entity) {
+        throw new AssertionError();
+    }
+    @ExpectPlatform
+    public static void setSpeeding(Entity entity, boolean bl) {
         throw new AssertionError();
     }
 }
