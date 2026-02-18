@@ -26,7 +26,6 @@ import net.minecraft.world.entity.player.Inventory;
 
 import java.util.List;
 
-@Environment(value=EnvType.CLIENT)
 public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.tryBuild(SpeedCap.MOD_ID,"cap_menu");
     private static final List<CapSlider> sliderWidgets = Lists.newArrayList();
@@ -145,7 +144,6 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
 
-    @Environment(value=EnvType.CLIENT)
     class CapTabButton extends AbstractButton implements VisibilityToggleable {
         private final boolean movementRelated;
         private final ResourceLocation sprite;
@@ -179,7 +177,6 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
 
-    @Environment(value=EnvType.CLIENT)
     static class CapSlider extends AbstractSliderButton implements VisibilityToggleable {
         private float speedValue;
         private final boolean movementRelated;
@@ -296,7 +293,6 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
 
-    @Environment(value=EnvType.CLIENT)
     class CapResetButton extends AbstractButton {
         private boolean selected = false;
 
@@ -329,7 +325,6 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
 
-    @Environment(value=EnvType.CLIENT)
     class CapScreenButton extends AbstractButton implements VisibilityToggleable {
         private boolean selected;
         private final Component name;
@@ -375,7 +370,6 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
 
-    @Environment(value=EnvType.CLIENT)
     class CapCancelButton extends AbstractButton {
         public CapCancelButton(int x, int y) {
             super(x, y, 9, 9, CommonComponents.GUI_CANCEL);

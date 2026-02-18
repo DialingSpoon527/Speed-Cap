@@ -132,7 +132,8 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 		return LayerDefinition.create(mesh, 64, 32);
 	}
 
-	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, int light, HumanoidModel<HumanoidRenderState> contextModel) {
+	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, int light, HumanoidModel<HumanoidRenderState> contextModel, boolean hasHelmet) {
+		head.skipDraw = hasHelmet;
 		contextModel.copyPropertiesTo((HumanoidModel<HumanoidRenderState>)this);
 		setupAnim(stack);
 		int color = DyedItemColor.getOrDefault(stack, SpeedCapItem.DEFAULT_COLOR);

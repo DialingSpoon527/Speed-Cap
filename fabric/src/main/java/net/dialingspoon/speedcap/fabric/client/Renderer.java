@@ -13,6 +13,6 @@ public class Renderer implements ArmorRenderer {
 
     @Override
     public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, HumanoidRenderState bipedEntityRenderState, EquipmentSlot slot, int light, HumanoidModel<HumanoidRenderState> contextModel) {
-        Model.capModel.render(matrixStack, renderTypeBuffer, stack, light, contextModel);
+        Model.capModel.render(matrixStack, renderTypeBuffer, stack, light, contextModel, false);
     }
 }
