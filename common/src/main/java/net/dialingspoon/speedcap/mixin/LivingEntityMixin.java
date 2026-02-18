@@ -93,7 +93,7 @@ public class LivingEntityMixin implements LivingEntityInterface {
 
                 if (isSpeeding != animComponent.sailDirection()) {
                     long tick = level.getGameTime();
-                    long sailTick = tick - (9 - Math.min((tick - animComponent.sailTick()), 10));
+                    long sailTick = tick - (10 - Math.min((tick - animComponent.sailTick()), 10));
                     cap.set(PlatformSpecific.getAnimComponent(), new CapAnimComponent(isSpeeding, sailTick));
                 }
             }

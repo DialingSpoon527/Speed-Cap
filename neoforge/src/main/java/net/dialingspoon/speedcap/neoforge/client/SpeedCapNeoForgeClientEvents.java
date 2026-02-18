@@ -25,57 +25,51 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 @SuppressWarnings("unused")
+@EventBusSubscriber(modid = SpeedCap.MOD_ID, value = Dist.CLIENT)
 public class SpeedCapNeoForgeClientEvents {
-    @EventBusSubscriber(modid = SpeedCap.MOD_ID, value = Dist.CLIENT)
-    public static class ClientNeoForgeEvents {
-        @SubscribeEvent
-        public static void onKey(InputEvent.Key event) {
-            if (ModKeys.TOGGLE_SPEED.consumeClick()) {
-                ItemStack cap = Util.getActiveCap(Minecraft.getInstance().player);
-                if (!cap.isEmpty()) {
-                    PacketHandler.sendToServer(new CapKeybindPacket(true));
-                }
+    @SubscribeEvent
+    public static void onKey(InputEvent.Key event) {
+        if (ModKeys.TOGGLE_SPEED.consumeClick()) {
+            ItemStack cap = Util.getActiveCap(Minecraft.getInstance().player);
+            if (!cap.isEmpty()) {
+                PacketHandler.sendToServer(new CapKeybindPacket(true));
             }
-            if (ModKeys.TOGGLE_MINE.consumeClick()) {
-                ItemStack cap = Util.getActiveCap(Minecraft.getInstance().player);
-                if (!cap.isEmpty()) {
-                    PacketHandler.sendToServer(new CapKeybindPacket(false));
-                }
+        }
+        if (ModKeys.TOGGLE_MINE.consumeClick()) {
+            ItemStack cap = Util.getActiveCap(Minecraft.getInstance().player);
+            if (!cap.isEmpty()) {
+                PacketHandler.sendToServer(new CapKeybindPacket(false));
             }
         }
     }
 
+    private static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
 
-    @EventBusSubscriber(modid = SpeedCap.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-    public static class ClientModBusEvents {
-        private static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
+    public static CapModel<HumanoidRenderState> capModel = null;
 
-        public static CapModel<HumanoidRenderState> capModel = null;
+    @SubscribeEvent
+    public static void initLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(LAYER, () -> CapModel.createLayer(LayerDefinitions.OUTER_ARMOR_DEFORMATION));
+    }
 
-        @SubscribeEvent
-        public static void initLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-            event.registerLayerDefinition(LAYER, () -> CapModel.createLayer(LayerDefinitions.OUTER_ARMOR_DEFORMATION));
-        }
+    @SubscribeEvent
+    public static void initModels(EntityRenderersEvent.AddLayers event) {
+        capModel = new CapModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(LAYER));
+    }
 
-        @SubscribeEvent
-        public static void initModels(EntityRenderersEvent.AddLayers event) {
-            capModel = new CapModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(LAYER));
-        }
+    @SubscribeEvent
+    public static void registerItemExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(ItemExtension.INSTANCE, ModItems.SPEEDCAP);
+    }
 
-        @SubscribeEvent
-        public static void registerItemExtensions(RegisterClientExtensionsEvent event) {
-            event.registerItem(ItemExtension.INSTANCE, ModItems.SPEEDCAP);
-        }
+    @SubscribeEvent
+    public static void initKeys(RegisterKeyMappingsEvent event) {
+        event.register(ModKeys.TOGGLE_SPEED);
+        event.register(ModKeys.TOGGLE_MINE);
+    }
 
-        @SubscribeEvent
-        public static void initKeys(RegisterKeyMappingsEvent event) {
-            event.register(ModKeys.TOGGLE_SPEED);
-            event.register(ModKeys.TOGGLE_MINE);
-        }
-
-        @SubscribeEvent
-        public static void registerMenuScreen(RegisterMenuScreensEvent event) {
-            event.register(ModMenuTypes.SPEEDCAP.get(), SpeedCapScreen::new);
-        }
+    @SubscribeEvent
+    public static void registerMenuScreen(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.SPEEDCAP.get(), SpeedCapScreen::new);
     }
 }
