@@ -6,8 +6,6 @@ import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.dialingspoon.speedcap.fabric.Model;
 import net.dialingspoon.speedcap.fabric.registry.ModItems;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
@@ -22,7 +20,7 @@ public class TrinketRenderer implements dev.emi.trinkets.api.client.TrinketRende
     @Override
     public void render(ItemStack itemStack, SlotReference slotReference, EntityModel<? extends LivingEntityRenderState> entityModel, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, LivingEntityRenderState livingEntityRenderState, float v, float v1) {
         if (livingEntityRenderState instanceof HumanoidRenderState humanoidRenderState) {
-            Model.capModel.render(poseStack, submitNodeCollector, itemStack, humanoidRenderState, light, true);
+            Model.capModel.render(poseStack, submitNodeCollector, itemStack, humanoidRenderState, light);
         }
     }
 }

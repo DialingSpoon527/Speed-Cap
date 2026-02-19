@@ -5,6 +5,7 @@ package net.dialingspoon.speedcap.models;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
+import net.dialingspoon.speedcap.interfaces.HumanoidRenderStateInterface;
 import net.dialingspoon.speedcap.item.CapAnimComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
 import net.minecraft.client.Minecraft;
@@ -12,11 +13,11 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import org.joml.Vector3f;
@@ -25,13 +26,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
-	public static final ResourceLocation TEXTURE = ResourceLocation.tryBuild(SpeedCap.MOD_ID, "textures/entity/equipment/humanoid/speed_cap.png");
-	public static final ResourceLocation OVERLAY_TEXTURE = ResourceLocation.tryBuild(SpeedCap.MOD_ID, "textures/entity/equipment/humanoid/speed_cap_overlay.png");
+	public static final Identifier TEXTURE = Identifier.tryBuild(SpeedCap.MOD_ID, "textures/entity/equipment/humanoid/speed_cap.png");
+	public static final Identifier OVERLAY_TEXTURE = Identifier.tryBuild(SpeedCap.MOD_ID, "textures/entity/equipment/humanoid/speed_cap_overlay.png");
 
     private final Map<String, ModelPart> modelParts;
 
 	public CapModel(ModelPart root) {
-		super(root, RenderType::entityTranslucent);
+		super(root, RenderTypes::entityTranslucent);
 		this.setAllVisible(false);
 
         this.modelParts = new HashMap<>();
@@ -131,29 +132,37 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 		return LayerDefinition.create(mesh, 64, 32);
 	}
 
-	public void render(PoseStack matrixStack, SubmitNodeCollector collector, ItemStack stack, T humanoidRenderState, int light, boolean hasHelmet) {
-		head.skipDraw = hasHelmet;
-		contextStack = stack;
+	public void render(PoseStack matrixStack, SubmitNodeCollector collector, ItemStack stack, T humanoidRenderState, int light) {
+		((HumanoidRenderStateInterface)humanoidRenderState).setSpeedCap(stack);
 		int color = DyedItemColor.getOrDefault(stack, SpeedCapItem.DEFAULT_COLOR);
 
 		collector.submitModel(this, humanoidRenderState, matrixStack,
-				RenderType.armorCutoutNoCull(CapModel.TEXTURE), light, OverlayTexture.NO_OVERLAY, color, null, 0, null);
+				RenderTypes.armorCutoutNoCull(CapModel.TEXTURE), light, OverlayTexture.NO_OVERLAY, color, null, 0, null);
 
 		collector.submitModel(this, humanoidRenderState, matrixStack,
-				RenderType.armorCutoutNoCull(CapModel.OVERLAY_TEXTURE), light, OverlayTexture.NO_OVERLAY, 0, null);
+				RenderTypes.armorCutoutNoCull(CapModel.OVERLAY_TEXTURE), light, OverlayTexture.NO_OVERLAY, 0, null);
 
 		if (stack.hasFoil()) {
 			collector.submitModel(this, humanoidRenderState, matrixStack,
-					RenderType.armorEntityGlint(), light, OverlayTexture.NO_OVERLAY, 0,null);
+					RenderTypes.armorEntityGlint(), light, OverlayTexture.NO_OVERLAY, 0,null);
 		}
 	}
 
-	public ItemStack contextStack;
+	@Override
+	public void setupAnim(T state) {
+		super.setupAnim(state);
 
-	public void setupAnim(T humanoidRenderState) {
-		super.setupAnim(humanoidRenderState);
-		if (contextStack != null) {
-			setupAnim(contextStack);
+		ItemStack headStack = state.headEquipment;
+		ItemStack cap = ((HumanoidRenderStateInterface) state).getSpeedCap();
+
+		if (cap == null && headStack.is(PlatformSpecific.getItem())) {
+			cap = headStack;
+		}
+
+		head.skipDraw = !headStack.isEmpty() && !headStack.is(PlatformSpecific.getItem());
+
+		if (cap != null && !cap.isEmpty()) {
+			setupAnim(cap);
 		}
 	}
 

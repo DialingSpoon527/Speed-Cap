@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -43,7 +43,7 @@ public class SpeedCapNeoForgeClientEvents {
         }
     }
 
-    private static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
+    private static final ModelLayerLocation LAYER = new ModelLayerLocation(Identifier.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
 
     public static CapModel<HumanoidRenderState> capModel = null;
 

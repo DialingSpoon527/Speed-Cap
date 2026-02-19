@@ -1,9 +1,7 @@
 package net.dialingspoon.speedcap.fabric;
 
 import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
-
 import net.dialingspoon.speedcap.fabric.networking.CapAnimPacket;
 import net.dialingspoon.speedcap.fabric.networking.Packets;
 import net.dialingspoon.speedcap.fabric.networking.ServerboundCapSettingsPacket;

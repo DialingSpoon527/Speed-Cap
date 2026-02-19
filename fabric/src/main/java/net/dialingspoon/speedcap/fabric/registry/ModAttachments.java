@@ -4,12 +4,12 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ModAttachments {
     public static final AttachmentType<Boolean> SPEEDING =
             AttachmentRegistry.create(
-                    ResourceLocation.fromNamespaceAndPath("speedcap", "speeding"),
+                    Identifier.fromNamespaceAndPath("speedcap", "speeding"),
                     builder -> builder
                             .initializer(() -> false)
                             .syncWith(ByteBufCodecs.BOOL, AttachmentSyncPredicate.all())

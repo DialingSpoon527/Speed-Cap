@@ -8,12 +8,12 @@ import net.dialingspoon.speedcap.fabric.networking.Packets;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 public class ModKeys {
-    public static final KeyMapping.Category KEY_CATEGORY_SPEEDCAP = KeyMapping.Category.register(ResourceLocation.fromNamespaceAndPath(SpeedCap.MOD_ID,"main"));
+    public static final KeyMapping.Category KEY_CATEGORY_SPEEDCAP = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(SpeedCap.MOD_ID,"main"));
     public static KeyMapping TOGGLE_SPEED = new KeyMapping("key.speedcap.speed", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_N, KEY_CATEGORY_SPEEDCAP);
     public static KeyMapping TOGGLE_MINE = new KeyMapping("key.speedcap.mine", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, KEY_CATEGORY_SPEEDCAP);
 

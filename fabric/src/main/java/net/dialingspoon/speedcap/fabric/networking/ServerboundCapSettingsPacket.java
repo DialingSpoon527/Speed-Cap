@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 public record ServerboundCapSettingsPacket(float moveSpeed, float mineSpeed, boolean moveActive, boolean modifiable,
                                            boolean jump, boolean stoponadime, boolean mineActive, boolean creative) implements CustomPacketPayload {
 
-    public static final Type<ServerboundCapSettingsPacket> TYPE = new Type<>(ResourceLocation.tryBuild(SpeedCap.MOD_ID, "cap_menu"));
+    public static final Type<ServerboundCapSettingsPacket> TYPE = new Type<>(Identifier.tryBuild(SpeedCap.MOD_ID, "cap_menu"));
 
     public static final StreamCodec<ByteBuf, ServerboundCapSettingsPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT,
@@ -27,7 +27,7 @@ public record ServerboundCapSettingsPacket(float moveSpeed, float mineSpeed, boo
             ServerboundCapSettingsPacket::mineSpeed,
             ByteBufCodecs.BYTE,
             ServerboundCapSettingsPacket::packBooleans,
-            (minespeed, movespeed, bytes) -> {
+            (movespeed, minespeed, bytes) -> {
                 boolean[] bools = unpackBooleans(bytes);
                 return new ServerboundCapSettingsPacket(movespeed, minespeed, bools[0], bools[1], bools[2], bools[3], bools[4], bools[5]);
             });

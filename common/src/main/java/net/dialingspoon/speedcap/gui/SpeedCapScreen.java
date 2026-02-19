@@ -4,9 +4,6 @@ import com.google.common.collect.Lists;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
@@ -21,7 +18,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,7 +26,7 @@ import net.minecraft.world.entity.player.Inventory;
 import java.util.List;
 
 public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
-    private static final ResourceLocation TEXTURE_LOCATION = ResourceLocation.tryBuild(SpeedCap.MOD_ID,"cap_menu");
+    private static final Identifier TEXTURE_LOCATION = Identifier.tryBuild(SpeedCap.MOD_ID,"cap_menu");
     private static final List<CapSlider> sliderWidgets = Lists.newArrayList();
     private static final List<CapScreenButton> buttonWidgets = Lists.newArrayList();
     private static CapResetButton resetWidget;
@@ -148,7 +145,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
 
     class CapTabButton extends AbstractButton implements VisibilityToggleable {
         private final boolean movementRelated;
-        private final ResourceLocation sprite;
+        private final Identifier sprite;
 
         public CapTabButton(int x, int y, Holder<MobEffect> effect, Component name, boolean movementRelated) {
             super(x, y, 25, 25, name);
@@ -162,7 +159,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, this.movementRelated == isMovementTabActive ? 0 : 25, 150, this.getX(), this.getY(), 25, 25);
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.sprite, this.getX() + 4, this.getY() + 3, 18, 18);
         }
@@ -315,7 +312,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
             this.selected = false;
         }
         @Override
-        public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
             int iconOffset = this.selected ? 59 : 59 + this.width;
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 162, this.getX(), this.getY(), this.width, this.height);
         }
@@ -345,7 +342,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
             this.selected = !this.selected;
         }
         @Override
-        public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
             int iconOffset = this.selected ? 50 + this.width : 50;
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 150, this.getX(), this.getY(), this.width, this.height);
             guiGraphics.drawCenteredString(SpeedCapScreen.this.font, name, this.getX() + this.width / 2, this.getY() - 10, 0xffffffff);
@@ -383,7 +380,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
+        public void renderContents(GuiGraphics guiGraphics, int i, int j, float f) {
             guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION, 256, 256, 50, 162, this.getX(), this.getY(), width, height);
         }
 

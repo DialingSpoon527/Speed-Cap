@@ -13,10 +13,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class SpeedCapFabricClient implements ClientModInitializer {
-    public static final ModelLayerLocation CAP_LAYER = new ModelLayerLocation(ResourceLocation.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
+    public static final ModelLayerLocation CAP_LAYER = new ModelLayerLocation(Identifier.tryBuild(SpeedCap.MOD_ID, "speedcap"), "main");
 
     @Override
     public void onInitializeClient() {

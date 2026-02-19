@@ -4,8 +4,8 @@ import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -24,7 +24,7 @@ public class SpeedCapItem extends Item {
             .component(PlatformSpecific.getDataComponent(), new CapSettingsComponent(4.8f, 4, true, false, true, false, true, true))
             .component(PlatformSpecific.getAnimComponent(), new CapAnimComponent(false, 0))
             .humanoidArmor(ModMaterials.SPEEDCAP, ArmorType.HELMET)
-            .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(SpeedCap.MOD_ID, "speed_cap")));
+            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(SpeedCap.MOD_ID, "speed_cap")));
     public static final int DEFAULT_COLOR = -1;
 
     public SpeedCapItem(Properties settings) {
