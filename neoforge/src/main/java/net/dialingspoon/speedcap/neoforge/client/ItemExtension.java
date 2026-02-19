@@ -13,9 +13,9 @@ public class ItemExtension implements IClientItemExtensions {
     public static final ItemExtension INSTANCE = new ItemExtension();
 
     @Override
-    public HumanoidModel<?> getHumanoidArmorModel(ItemStack itemStack, EquipmentClientInfo.LayerType layerType, Model original) {
+    public HumanoidModel<?> getGenericArmorModel(ItemStack itemStack, EquipmentClientInfo.LayerType layerType, Model original) {
         CapModel<HumanoidRenderState> model = SpeedCapNeoForgeClientEvents.capModel;
-        model.setupAnim(itemStack);
+        model.contextStack = itemStack;
         return model;
     }
 }

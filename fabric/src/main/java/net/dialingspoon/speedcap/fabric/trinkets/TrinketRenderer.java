@@ -8,6 +8,7 @@ import net.dialingspoon.speedcap.fabric.registry.ModItems;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.world.item.ItemStack;
@@ -19,10 +20,9 @@ public class TrinketRenderer implements dev.emi.trinkets.api.client.TrinketRende
     }
 
     @Override
-    public void render(ItemStack itemStack, SlotReference slotReference, EntityModel<? extends LivingEntityRenderState> entityModel, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, LivingEntityRenderState livingEntityRenderState, float v, float v1) {
-        if (entityModel instanceof HumanoidModel<?>) {
-            HumanoidModel<HumanoidRenderState> humanoidModel = (HumanoidModel<HumanoidRenderState>) entityModel;
-            Model.capModel.render(poseStack, multiBufferSource, itemStack, light, humanoidModel, true);
+    public void render(ItemStack itemStack, SlotReference slotReference, EntityModel<? extends LivingEntityRenderState> entityModel, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, LivingEntityRenderState livingEntityRenderState, float v, float v1) {
+        if (livingEntityRenderState instanceof HumanoidRenderState humanoidRenderState) {
+            Model.capModel.render(poseStack, submitNodeCollector, itemStack, humanoidRenderState, light, true);
         }
     }
 }

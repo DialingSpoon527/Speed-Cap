@@ -3,7 +3,6 @@
 package net.dialingspoon.speedcap.models;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.item.CapAnimComponent;
@@ -13,8 +12,8 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -132,21 +131,29 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 		return LayerDefinition.create(mesh, 64, 32);
 	}
 
-	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, int light, HumanoidModel<HumanoidRenderState> contextModel, boolean hasHelmet) {
+	public void render(PoseStack matrixStack, SubmitNodeCollector collector, ItemStack stack, T humanoidRenderState, int light, boolean hasHelmet) {
 		head.skipDraw = hasHelmet;
-		contextModel.copyPropertiesTo((HumanoidModel<HumanoidRenderState>)this);
-		setupAnim(stack);
+		contextStack = stack;
 		int color = DyedItemColor.getOrDefault(stack, SpeedCapItem.DEFAULT_COLOR);
 
-		VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(CapModel.TEXTURE));
-		renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, color);
+		collector.submitModel(this, humanoidRenderState, matrixStack,
+				RenderType.armorCutoutNoCull(CapModel.TEXTURE), light, OverlayTexture.NO_OVERLAY, color, null, 0, null);
 
-		vertexConsumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(CapModel.OVERLAY_TEXTURE));
-		renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
+		collector.submitModel(this, humanoidRenderState, matrixStack,
+				RenderType.armorCutoutNoCull(CapModel.OVERLAY_TEXTURE), light, OverlayTexture.NO_OVERLAY, 0, null);
 
 		if (stack.hasFoil()) {
-			vertexConsumer = renderTypeBuffer.getBuffer(RenderType.armorEntityGlint());
-			renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
+			collector.submitModel(this, humanoidRenderState, matrixStack,
+					RenderType.armorEntityGlint(), light, OverlayTexture.NO_OVERLAY, 0,null);
+		}
+	}
+
+	public ItemStack contextStack;
+
+	public void setupAnim(T humanoidRenderState) {
+		super.setupAnim(humanoidRenderState);
+		if (contextStack != null) {
+			setupAnim(contextStack);
 		}
 	}
 

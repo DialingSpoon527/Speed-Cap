@@ -88,7 +88,7 @@ public class LivingEntityMixin implements LivingEntityInterface {
         if (cap != null) {
             CapAnimComponent animComponent = cap.getOrDefault(PlatformSpecific.getAnimComponent(), new CapAnimComponent(false, 0));
             Level level = ((LivingEntity) (Object) this).level();
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 boolean isSpeeding = PlatformSpecific.isSpeeding((LivingEntity)(Object)this);
 
                 if (isSpeeding != animComponent.sailDirection()) {

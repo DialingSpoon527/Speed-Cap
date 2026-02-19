@@ -1,6 +1,6 @@
 {
   "item.speedcap.speed_cap": "Speed Cap",
-  "key.category.speedcap": "Speed Cap",
+  "key.category.speedcap.main": "Speed Cap",
   "key.speedcap.speed": "Toggle Speed Cap",
   "key.speedcap.mine": "Toggle Mining Speed Cap",
   "creativetab.speedcap_tab": "Speed Caps",

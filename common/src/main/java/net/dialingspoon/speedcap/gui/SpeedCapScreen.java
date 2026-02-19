@@ -15,6 +15,8 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.InputWithModifiers;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
@@ -92,10 +94,10 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
     @Override
-    public boolean mouseReleased(double d, double e, int i) {
+    public boolean mouseReleased(MouseButtonEvent mouseButtonEvent) {
         resetWidget.onRelease();
         sliderWidgets.forEach(CapSlider::onRelease);
-        return super.mouseReleased(d, e, i);
+        return super.mouseReleased(mouseButtonEvent);
     }
 
     @Override
@@ -131,9 +133,9 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
     @Override
-    public boolean mouseDragged(double d, double e, int i, double f, double g) {
-        sliderWidgets.stream().filter(w -> w.movementRelated == isMovementTabActive).forEach((capSlider) -> capSlider.onDrag(d, e ,f ,g));
-        return super.mouseDragged(d, e, i, f, g);
+    public boolean mouseDragged(MouseButtonEvent mouseButtonEvent, double d, double e) {
+        sliderWidgets.stream().filter(w -> w.movementRelated == isMovementTabActive).forEach((capSlider) -> capSlider.onDrag(mouseButtonEvent, d, e));
+        return super.mouseDragged(mouseButtonEvent, d, e);
     }
 
 
@@ -155,7 +157,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void onPress() {
+        public void onPress(InputWithModifiers inputWithModifiers) {
             SpeedCapScreen.this.switchTab(this.movementRelated);
         }
 
@@ -239,9 +241,9 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
             }
         }
 
-        public void onDrag(double d, double e, double f, double g) {
+        public void onDrag(MouseButtonEvent mouseButtonEvent, double d, double e) {
             if (this.isHovered) {
-                super.onDrag(d, e, f, g);
+                super.onDrag(mouseButtonEvent, d, e);
             }
         }
 
@@ -302,7 +304,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void onPress() {
+        public void onPress(InputWithModifiers inputWithModifiers) {
             this.selected = true;
             sliderWidgets.stream()
                     .filter(w -> w.isMovementRelated() == SpeedCapScreen.this.isMovementTabActive)
@@ -339,7 +341,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void onPress() {
+        public void onPress(InputWithModifiers inputWithModifiers) {
             this.selected = !this.selected;
         }
         @Override
@@ -376,7 +378,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void onPress() {
+        public void onPress(InputWithModifiers inputWithModifiers) {
             onClose();
         }
 
