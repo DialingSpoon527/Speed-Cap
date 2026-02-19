@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
+import net.dialingspoon.speedcap.interfaces.HumanoidRenderStateInterface;
 import net.dialingspoon.speedcap.item.CapAnimComponent;
 import net.dialingspoon.speedcap.item.SpeedCapItem;
 import net.minecraft.client.Minecraft;
@@ -132,9 +133,10 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 		return LayerDefinition.create(mesh, 64, 32);
 	}
 
-	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, int light, HumanoidModel<HumanoidRenderState> contextModel) {
-		contextModel.copyPropertiesTo((HumanoidModel<HumanoidRenderState>)this);
-		setupAnim(stack);
+	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, T humanoidRenderState, int light) {
+		((HumanoidRenderStateInterface)humanoidRenderState).setSpeedCap(stack);
+		setupAnim(humanoidRenderState);
+
 		int color = DyedItemColor.getOrDefault(stack, SpeedCapItem.DEFAULT_COLOR);
 
 		VertexConsumer vertexConsumer = renderTypeBuffer.getBuffer(RenderType.armorCutoutNoCull(CapModel.TEXTURE));
@@ -146,6 +148,24 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 		if (stack.hasFoil()) {
 			vertexConsumer = renderTypeBuffer.getBuffer(RenderType.armorEntityGlint());
 			renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
+		}
+	}
+
+	@Override
+	public void setupAnim(T state) {
+		super.setupAnim(state);
+
+		ItemStack headStack = state.headEquipment;
+		ItemStack cap = ((HumanoidRenderStateInterface) state).getSpeedCap();
+
+		if (cap == null && headStack.is(PlatformSpecific.getItem())) {
+			cap = headStack;
+		}
+
+		head.skipDraw = !headStack.isEmpty() && !headStack.is(PlatformSpecific.getItem());
+
+		if (cap != null && !cap.isEmpty()) {
+			setupAnim(cap);
 		}
 	}
 

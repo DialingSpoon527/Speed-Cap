@@ -27,7 +27,7 @@ public record ServerboundCapSettingsPacket(float moveSpeed, float mineSpeed, boo
             ServerboundCapSettingsPacket::mineSpeed,
             ByteBufCodecs.BYTE,
             ServerboundCapSettingsPacket::packBooleans,
-            (minespeed, movespeed, bytes) -> {
+            (movespeed, minespeed, bytes) -> {
                 boolean[] bools = unpackBooleans(bytes);
                 return new ServerboundCapSettingsPacket(movespeed, minespeed, bools[0], bools[1], bools[2], bools[3], bools[4], bools[5]);
             });
