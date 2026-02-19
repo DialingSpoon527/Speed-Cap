@@ -1,7 +1,7 @@
 package net.dialingspoon.speedcap.fabric;
 
-import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketsApi;
+//import dev.emi.trinkets.api.SlotReference;
+//import dev.emi.trinkets.api.TrinketsApi;
 import net.dialingspoon.speedcap.fabric.networking.CapAnimPacket;
 import net.dialingspoon.speedcap.fabric.networking.Packets;
 import net.dialingspoon.speedcap.fabric.networking.ServerboundCapSettingsPacket;
@@ -23,12 +23,12 @@ import java.util.List;
 
 public class PlatformSpecificImpl {
     public static ItemStack getItemFromModdedSlots(LivingEntity livingEntity) {
-        if (SpeedCapFabric.trinketsLoaded) {
-            if (TrinketsApi.getTrinketComponent(livingEntity).isPresent()) {
-                List<Tuple<SlotReference, ItemStack>> stacks = TrinketsApi.getTrinketComponent(livingEntity).get().getEquipped(ModItems.SPEEDCAP);
-                if (!stacks.isEmpty()) return stacks.get(0).getB();
-            }
-        }
+//        if (SpeedCapFabric.trinketsLoaded) {
+//            if (TrinketsApi.getTrinketComponent(livingEntity).isPresent()) {
+//                List<Tuple<SlotReference, ItemStack>> stacks = TrinketsApi.getTrinketComponent(livingEntity).get().getEquipped(ModItems.SPEEDCAP);
+//                if (!stacks.isEmpty()) return stacks.get(0).getB();
+//            }
+//        }
         return ItemStack.EMPTY;
     }
 

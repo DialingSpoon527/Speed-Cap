@@ -9,6 +9,6 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class ModRecipes {
-    public static final RecipeSerializer<CapRecipe> CAP_RECIPE = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Identifier.tryBuild(SpeedCap.MOD_ID, "crafting_special_speedcap"), new CustomRecipe.Serializer<>(CapRecipe::new));
+    public static final RecipeSerializer<CapRecipe> CAP_RECIPE = Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, Identifier.tryBuild(SpeedCap.MOD_ID, "crafting_special_speedcap"), CapRecipe.SERIALIZER);
     public static void register() {}
 }

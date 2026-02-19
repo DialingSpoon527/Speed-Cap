@@ -33,7 +33,7 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 
 	public CapModel(ModelPart root) {
 		super(root, RenderTypes::entityTranslucent);
-		this.setAllVisible(false);
+		this.allParts().forEach(modelPart -> {if(!head.getAllParts().contains(modelPart)) modelPart.visible = false;});
 
         this.modelParts = new HashMap<>();
 		this.modelParts.put("hat", root.getChild("head"));
@@ -56,6 +56,7 @@ public class CapModel<T extends HumanoidRenderState> extends HumanoidModel<T> {
 
 		modelParts.values().forEach(part -> part.visible = true);
 		this.head.visible = true;
+		root.visible = true;
 	}
 
 	public static LayerDefinition createLayer(CubeDeformation deform) {

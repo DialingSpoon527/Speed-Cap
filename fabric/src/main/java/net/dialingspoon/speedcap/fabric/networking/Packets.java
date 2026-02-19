@@ -8,11 +8,11 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 public class Packets {
 
     public static void registerPackets() {
-        PayloadTypeRegistry.playC2S().register(ServerboundCapSettingsPacket.TYPE, ServerboundCapSettingsPacket.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(ServerboundCapSettingsPacket.TYPE, ServerboundCapSettingsPacket.STREAM_CODEC);
         ServerPlayNetworking.registerGlobalReceiver(ServerboundCapSettingsPacket.TYPE, ServerboundCapSettingsPacket::handle);
-        PayloadTypeRegistry.playC2S().register(CapKeybindPacket.TYPE, CapKeybindPacket.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(CapKeybindPacket.TYPE, CapKeybindPacket.STREAM_CODEC);
         ServerPlayNetworking.registerGlobalReceiver(CapKeybindPacket.TYPE, CapKeybindPacket::handle);
-        PayloadTypeRegistry.playC2S().register(CapAnimPacket.TYPE, CapAnimPacket.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(CapAnimPacket.TYPE, CapAnimPacket.STREAM_CODEC);
         ServerPlayNetworking.registerGlobalReceiver(CapAnimPacket.TYPE, CapAnimPacket::handle);
     }
 

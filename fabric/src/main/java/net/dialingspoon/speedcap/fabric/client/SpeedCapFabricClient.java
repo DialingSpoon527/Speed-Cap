@@ -10,7 +10,7 @@ import net.dialingspoon.speedcap.fabric.trinkets.TrinketRenderer;
 import net.dialingspoon.speedcap.models.CapModel;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.Identifier;
@@ -21,7 +21,7 @@ public final class SpeedCapFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LayerDefinitionsAccessor deformationGetter = ((LayerDefinitionsAccessor)new LayerDefinitions());
-        EntityModelLayerRegistry.registerModelLayer(CAP_LAYER, () -> CapModel.createLayer(deformationGetter.getOUTER_ARMOR_DEFORMATION()));
+        ModelLayerRegistry.registerModelLayer(CAP_LAYER, () -> CapModel.createLayer(deformationGetter.getOUTER_ARMOR_DEFORMATION()));
 
         ArmorRenderer.register(new Renderer(), ModItems.SPEEDCAP);
         ModMenuTypes.register(true);

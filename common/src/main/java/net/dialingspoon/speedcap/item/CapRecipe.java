@@ -1,42 +1,34 @@
 package net.dialingspoon.speedcap.item;
 
+import com.mojang.serialization.MapCodec;
 import net.dialingspoon.speedcap.PlatformSpecific;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WoolCarpetBlock;
 
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
 public class CapRecipe extends CustomRecipe {
-    static final NonNullList<Optional<Ingredient>> recipeItems = NonNullList.withSize(6, Optional.empty());
-    static {
-        recipeItems.set(0, Optional.of(Ingredient.of(Items.STICK)));
-        reloadCarpetTag();
-        recipeItems.set(2, Optional.of(Ingredient.of(Items.STICK)));
-        recipeItems.set(3, Optional.of(Ingredient.of(Items.REDSTONE)));
-        recipeItems.set(4, Optional.of(Ingredient.of(Items.IRON_HELMET)));
-        recipeItems.set(5, Optional.of(Ingredient.of(Items.REDSTONE)));
-    }
+    public static final MapCodec<CapRecipe> MAP_CODEC = MapCodec.unit(new CapRecipe());
+    public static final StreamCodec<RegistryFriendlyByteBuf, CapRecipe> STREAM_CODEC = StreamCodec.unit(new CapRecipe());
+    public static final RecipeSerializer<CapRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
-    public CapRecipe(CraftingBookCategory craftingBookCategory) {
-        super(craftingBookCategory);
+    private static boolean matchesSlot(ItemStack stack, int x, int y) {
+        return switch (x + y * 3) {
+            case 0, 2 -> stack.is(Items.STICK);
+            case 1 -> isColoredCarpet(stack);
+            case 3, 5 -> stack.is(Items.REDSTONE);
+            case 4 -> stack.is(Items.IRON_HELMET);
+            default -> stack.isEmpty();
+        };
     }
 
     @Override
     public boolean matches(CraftingInput recipeInput, Level level) {
-        reloadCarpetTag();
         for (int i = 0; i <= recipeInput.width() - 3; ++i) {
             for (int j = 0; j <= recipeInput.height() - 2; ++j) {
                 if (this.matches(recipeInput, i, j, true)) {
@@ -54,20 +46,29 @@ public class CapRecipe extends CustomRecipe {
             for (int j = 0; j < recipeInput.height(); ++j) {
                 int k = i - m;
                 int l = j - n;
-                Optional<Ingredient> ingredient = Optional.empty();
-                if (k >= 0 && l >= 0 && k < 3 && l < 2) {
-                    ingredient = bl ? recipeItems.get(3 - k - 1 + l * 3) : recipeItems.get(k + l * 3);
+                ItemStack stack = recipeInput.getItem(i + j * recipeInput.width());
+                if (k < 0 || l < 0 || k >= 3 || l >= 2) {
+                    if (!stack.isEmpty()) {
+                        return false;
+                    }
+                    continue;
                 }
-                if (Ingredient.testOptionalIngredient(ingredient, recipeInput.getItem(i + j * recipeInput.width()))) continue;
-                return false;
+
+                int recipeX = bl ? 2 - k : k;
+                if (!matchesSlot(stack, recipeX, l)) {
+                    return false;
+                }
             }
         }
         return true;
     }
 
     @Override
-    public ItemStack assemble(CraftingInput recipeInput, HolderLookup.Provider provider) {
-        ItemStack carpet = recipeInput.items().stream().filter(m -> m.is(ItemTags.WOOL_CARPETS)).findFirst().get();
+    public ItemStack assemble(CraftingInput input) {
+        ItemStack carpet = input.items().stream().filter(CapRecipe::isColoredCarpet).findFirst().orElse(ItemStack.EMPTY);
+        if (carpet.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
         ItemStack cap = new ItemStack(PlatformSpecific.getItem());
 
         int color = ((WoolCarpetBlock)((BlockItem)carpet.getItem()).getBlock()).getColor().getTextureDiffuseColor();
@@ -78,15 +79,10 @@ public class CapRecipe extends CustomRecipe {
 
     @Override
     public RecipeSerializer<CapRecipe> getSerializer() {
-        return PlatformSpecific.getRecipeSerializer();
+        return SERIALIZER;
     }
 
-    public static void reloadCarpetTag() {
-        Item[] carpets = StreamSupport.stream(BuiltInRegistries.ITEM.getTagOrEmpty(ItemTags.WOOL_CARPETS).spliterator(), false).map(Holder::value).filter(item -> item != Items.WHITE_CARPET).toArray(Item[]::new);
-        if (carpets.length == 0) {
-            recipeItems.set(1, Optional.empty());
-        } else {
-            recipeItems.set(1, Optional.of(Ingredient.of(carpets)));
-        }
+    private static boolean isColoredCarpet(ItemStack stack) {
+        return stack.is(ItemTags.WOOL_CARPETS) && !stack.is(Items.WHITE_CARPET);
     }
 }

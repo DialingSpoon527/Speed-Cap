@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister.create(Registries.RECIPE_SERIALIZER, SpeedCap.MOD_ID);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CapRecipe>> CAP_RECIPE = RECIPE_SERIALIZER.register("crafting_special_speedcap", () -> new CustomRecipe.Serializer<>(CapRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CapRecipe>> CAP_RECIPE = RECIPE_SERIALIZER.register("crafting_special_speedcap", () -> CapRecipe.SERIALIZER);
 
     public static void register(IEventBus eventBus) {
         RECIPE_SERIALIZER.register(eventBus);

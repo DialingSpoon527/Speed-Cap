@@ -5,7 +5,7 @@ import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -33,9 +33,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     private boolean isMovementTabActive = true;
 
     public SpeedCapScreen(final SpeedCapMenu capMenu, Inventory inventory, Component component) {
-        super(capMenu, inventory, component);
-        this.imageWidth = 150;
-        this.imageHeight = 150;
+        super(capMenu, inventory, component, 150, 150);
     }
 
     @Override
@@ -98,18 +96,12 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
-        guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION,  256, 256, 0, 0, this.leftPos, this.topPos-25, this.imageWidth, this.imageHeight);
+    public void extractBackground(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY, final float a) {
+        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION,  256, 256, 0, 0, this.leftPos, this.topPos-25, this.imageWidth, this.imageHeight);
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
-    }
-
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {}
+    protected void extractLabels(final GuiGraphicsExtractor graphics, final int xm, final int ym) {}
 
     @Override
     public void onClose() {
@@ -159,9 +151,9 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, this.movementRelated == isMovementTabActive ? 0 : 25, 150, this.getX(), this.getY(), 25, 25);
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.sprite, this.getX() + 4, this.getY() + 3, 18, 18);
+        public void extractContents(final GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, this.movementRelated == isMovementTabActive ? 0 : 25, 150, this.getX(), this.getY(), 25, 25);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, this.sprite, this.getX() + 4, this.getY() + 3, 18, 18);
         }
 
         @Override
@@ -312,9 +304,9 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
             this.selected = false;
         }
         @Override
-        public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        public void extractContents(final GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
             int iconOffset = this.selected ? 59 : 59 + this.width;
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 162, this.getX(), this.getY(), this.width, this.height);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 162, this.getX(), this.getY(), this.width, this.height);
         }
 
         @Override
@@ -342,10 +334,10 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
             this.selected = !this.selected;
         }
         @Override
-        public void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        public void extractContents(final GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
             int iconOffset = this.selected ? 50 + this.width : 50;
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 150, this.getX(), this.getY(), this.width, this.height);
-            guiGraphics.drawCenteredString(SpeedCapScreen.this.font, name, this.getX() + this.width / 2, this.getY() - 10, 0xffffffff);
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SpeedCapScreen.TEXTURE_LOCATION, 256, 256, iconOffset, 150, this.getX(), this.getY(), this.width, this.height);
+            graphics.centeredText(SpeedCapScreen.this.font, name, this.getX() + this.width / 2, this.getY() - 10, 0xffffffff);
         }
 
         public boolean isSelected() {
@@ -380,8 +372,8 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         }
 
         @Override
-        public void renderContents(GuiGraphics guiGraphics, int i, int j, float f) {
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION, 256, 256, 50, 162, this.getX(), this.getY(), width, height);
+        public void extractContents(final GuiGraphicsExtractor graphics, int i, int j, float f) {
+            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, TEXTURE_LOCATION, 256, 256, 50, 162, this.getX(), this.getY(), width, height);
         }
 
         @Override

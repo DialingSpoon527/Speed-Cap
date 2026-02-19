@@ -6,7 +6,7 @@ import net.dialingspoon.speedcap.Util;
 import net.dialingspoon.speedcap.fabric.networking.CapKeybindPacket;
 import net.dialingspoon.speedcap.fabric.networking.Packets;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +18,7 @@ public class ModKeys {
     public static KeyMapping TOGGLE_MINE = new KeyMapping("key.speedcap.mine", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, KEY_CATEGORY_SPEEDCAP);
 
     public static void register() {
-        KeyBindingHelper.registerKeyBinding(TOGGLE_SPEED);
+        KeyMappingHelper.registerKeyMapping(TOGGLE_SPEED);
         ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
             while (ModKeys.TOGGLE_SPEED.consumeClick()) {
                 ItemStack cap = Util.getActiveCap(minecraft.player);
@@ -27,7 +27,7 @@ public class ModKeys {
                 }
             }
         });
-        KeyBindingHelper.registerKeyBinding(TOGGLE_MINE);
+        KeyMappingHelper.registerKeyMapping(TOGGLE_MINE);
         ClientTickEvents.END_CLIENT_TICK.register(minecraft -> {
             while (ModKeys.TOGGLE_MINE.consumeClick()) {
                 ItemStack cap = Util.getActiveCap(minecraft.player);

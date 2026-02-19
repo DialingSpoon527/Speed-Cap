@@ -25,7 +25,7 @@ public class MultiPlayerGameModeMixin {
     @Shadow
     @Final private Minecraft minecraft;
 
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getDestroyProgress(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F"), method = "method_41930")
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;getDestroyProgress(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F"), method = "lambda$startDestroyBlock$1")
     public void delayDestroy(BlockState blockState, BlockPos blockPos, Direction direction, int i, CallbackInfoReturnable<Packet> cir) {
         ItemStack cap = Util.getActiveCap(minecraft.player);
         CapSettingsComponent data = ((EntityInterface) minecraft.player).speedcap$getData();
