@@ -11,8 +11,8 @@ public record CapSettingsComponent(float moveSpeed, float mineSpeed, boolean mov
     public static final StreamCodec<ByteBuf, CapSettingsComponent> STREAM_CODEC;
     static {
         CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                Codec.FLOAT.fieldOf("mineSpeed").forGetter(component -> component.mineSpeed),
                 Codec.FLOAT.fieldOf("moveSpeed").forGetter(component -> component.moveSpeed),
+                Codec.FLOAT.fieldOf("mineSpeed").forGetter(component -> component.mineSpeed),
                 Codec.BOOL.fieldOf("moveActive").forGetter(component -> component.moveActive),
                 Codec.BOOL.fieldOf("modifiable").forGetter(component -> component.modifiable),
                 Codec.BOOL.fieldOf("jump").forGetter(component -> component.jump),
@@ -22,14 +22,14 @@ public record CapSettingsComponent(float moveSpeed, float mineSpeed, boolean mov
         ).apply(instance, CapSettingsComponent::new));
         STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.FLOAT,
-                CapSettingsComponent::mineSpeed,
-                ByteBufCodecs.FLOAT,
                 CapSettingsComponent::moveSpeed,
+                ByteBufCodecs.FLOAT,
+                CapSettingsComponent::mineSpeed,
                 ByteBufCodecs.BYTE,
                 CapSettingsComponent::packBooleans,
-                (minespeed, movespeed, bytes) -> {
+                (movespeed, minespeed, bytes) -> {
                     boolean[] bools = unpackBooleans(bytes);
-                    return new CapSettingsComponent(minespeed, movespeed, bools[0], bools[1], bools[2], bools[3], bools[4], bools[5]);
+                    return new CapSettingsComponent(movespeed, minespeed, bools[0], bools[1], bools[2], bools[3], bools[4], bools[5]);
                 });
     }
 
