@@ -5,11 +5,11 @@
   "name": "Speed Cap",
   "description": "Cap your speed",
   "authors": [
-    "DialingSpoon"
+    "DialingSpoon527"
   ],
   "contact": {
-    "issues": "https://github.com/19Phin/Speed-Cap/issues",
-    "sources": "https://github.com/19Phin/Speed-Cap"
+    "issues": "https://github.com/DialingSpoon527/Speed-Cap/issues",
+    "sources": "https://github.com/DialingSpoon527/Speed-Cap"
   },
   "license": "Mit",
   "icon": "icon.png",
@@ -28,7 +28,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.16.2",
-    "minecraft": ">1.21.4",
+    "minecraft": ">1.21.4 <1.21.6",
     "java": ">=21",
     "fabric-api": "*"
   }

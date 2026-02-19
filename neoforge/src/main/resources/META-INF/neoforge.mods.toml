@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[3,)"
-issueTrackerURL = "https://github.com/19Phin/Speed-Cap/issues"
+issueTrackerURL = "https://github.com/DialingSpoon527/Speed-Cap/issues"
 license = "MIT"
 
 [[mods]]
 modId = "speedcap"
 version = "${version}"
 displayName = "Speed Cap"
-authors = "DialingSpoon"
+authors = "DialingSpoon527"
 description = '''
 Cap your speed
 '''
@@ -21,13 +21,13 @@ config = "speedcap.neoforge.mixins.json"
 [[dependencies.speedcap]]
 modId = "neoforge"
 type = "required"
-versionRange = "(21.4,)"
+versionRange = "(21.4, 21.6)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.speedcap]]
 modId = "minecraft"
 type = "required"
-versionRange = "(1.21.4,)"
+versionRange = "(1.21.4, 1.21.6)"
 ordering = "NONE"
 side = "BOTH"

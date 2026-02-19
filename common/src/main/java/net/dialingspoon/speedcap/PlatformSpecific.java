@@ -19,11 +19,6 @@ public class PlatformSpecific {
     }
 
     @ExpectPlatform
-    public static Object itemExtension() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static void sendToServer(float moveSpeed, float mineSpeed, boolean moveActive, boolean modifiable,
                                     boolean jump, boolean stoponadime, boolean mineActive, boolean creative) {
         throw new AssertionError();
