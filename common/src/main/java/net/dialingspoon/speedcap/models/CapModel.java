@@ -132,6 +132,7 @@ public class CapModel<T extends LivingEntity> extends HumanoidModel<T> {
 	}
 
 	public void render(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack stack, LivingEntity livingEntity, int light, HumanoidModel<LivingEntity> contextModel) {
+		head.skipDraw = !livingEntity.getSlot(103).get().equals(stack) && !livingEntity.getSlot(103).get().isEmpty();
 		contextModel.copyPropertiesTo((HumanoidModel<LivingEntity>)this);
 		setupAnim(livingEntity);
 

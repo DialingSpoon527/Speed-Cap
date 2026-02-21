@@ -1,13 +1,13 @@
 modLoader = "javafml"
 loaderVersion = "[3,)"
-issueTrackerURL = "https://github.com/19Phin/Speed-Cap/issues"
+issueTrackerURL = "https://github.com/DialingSpoon527/Speed-Cap/issues"
 license = "MIT"
 
 [[mods]]
 modId = "speedcap"
 version = "${version}"
 displayName = "Speed Cap"
-authors = "DialingSpoon"
+authors = "DialingSpoon527"
 description = '''
 Cap your speed
 '''
