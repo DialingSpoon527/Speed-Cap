@@ -83,6 +83,6 @@ public class CapRecipe extends CustomRecipe {
     }
 
     private static boolean isColoredCarpet(ItemStack stack) {
-        return stack.is(ItemTags.WOOL_CARPETS) && !stack.is(Items.WHITE_CARPET);
+        return stack.is(ItemTags.WOOL_CARPETS) && !stack.is(Items.CARPET.white());
     }
 }

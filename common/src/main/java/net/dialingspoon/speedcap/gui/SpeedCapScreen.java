@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.dialingspoon.speedcap.PlatformSpecific;
 import net.dialingspoon.speedcap.SpeedCap;
 import net.dialingspoon.speedcap.item.CapSettingsComponent;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractSliderButton;
@@ -142,7 +142,7 @@ public class SpeedCapScreen extends AbstractContainerScreen<SpeedCapMenu> {
         public CapTabButton(int x, int y, Holder<MobEffect> effect, Component name, boolean movementRelated) {
             super(x, y, 25, 25, name);
             this.movementRelated = movementRelated;
-            this.sprite = Gui.getMobEffectSprite(effect);
+            this.sprite = Hud.getMobEffectSprite(effect);
         }
 
         @Override
